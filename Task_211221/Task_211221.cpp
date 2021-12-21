@@ -147,5 +147,9 @@ int main()
 
     cout << l3 << "\n";
     l3.PushAfterMax(1024);
-    cout << l3 << "\n";
+    cout << l3 << "\n\n";
+
+    cout << "Enter anything to finish...\n";
+    int k;
+    cin >> k;
 }
