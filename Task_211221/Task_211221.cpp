@@ -149,6 +149,24 @@ int main()
     l3.PushAfterMax(1024);
     cout << l3 << "\n\n";
 
+    cout << "Test 4: \n\n";
+
+    TList<int> l4;
+
+    l4.PushBack(-12);
+
+    cout << l4 << "\n";
+    l4.PushAfterMax(1024);
+    cout << l4 << "\n\n";
+
+    cout << "Test 5: \n\n";
+
+    TList<int> l5;
+
+    cout << l5 << "\n";
+    l5.PushAfterMax(1024);
+    cout << l5 << "\n\n";
+
     cout << "Enter anything to finish...\n";
     int k;
     cin >> k;

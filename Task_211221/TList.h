@@ -195,6 +195,7 @@ void TList<T>::PushBack(T element)
 	size++;
 }
 
+/* ........ Task (21.12.21) ........ */
 template <class T>
 void TList<T>::PushAfterMax(T element)
 {
