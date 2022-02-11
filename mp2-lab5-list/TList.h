@@ -1,339 +1,215 @@
 #pragma once
 #include <iostream>
-#include <string>
-
-/* TListException - класс исключения для TList */
-
-class TListException
-{
-private:
-	std::string desc;
-
-public:
-	TListException(std::string _desc)
-	{
-		desc = _desc;
-	}
-	TListException(const TListException& e)
-	{
-		desc = e.desc;
-	}
-
-	friend std::ostream& operator<<(std::ostream& os, const TListException& e)
-	{
-		os << "Exception message: " << e.desc << '\n';
-		return os;
-	}
-};
-
-/* TNode - звено списка */
 
 template <class T>
 struct TNode
 {
 	T value;
-	TNode* pNext;
+	T* pNext;
 };
-
-/* TList - односвязный список */
 
 template <class T>
 class TList
 {
-private:
+protected:
 	TNode<T>* pFirst;
 	TNode<T>* pLast;
-
-	int size = 0;
+	//Для добавления эл-та в середину списка и удаления: [pPrev] -> [pCurr] -> []
+	TNode<T>* pPrev;
+	TNode<T>* pCurr;
+	//pStop будет равен указателю на голову, чтобы не иметь
+	//проблем при переходе от лин. списка к кольцевому
+	TNode<T>* pStop;
+	//Длина списка
+	int length;
 
 public:
-	TList();
-	TList(const TList<T>& other);
-	~TList();
-
-	TList<T>& operator=(const TList<T>& other);
-
-	bool IsEmpty() const;
-	bool IsNotEmpty() const;
-
-	bool operator==(const TList<T>& other) const;
-	bool operator!=(const TList<T>& other) const;
-
-	void PushFront(T element);
-	void PushBack(T element);
-
-	T PopFront();
-	T PopBack();
-	T& Get(int index);
-	T& operator[](int index);
-
-	T GetFirst() const;
-	T GetLast() const;
-
-	void Clear();
-
-	friend std::ostream& operator<<(
-		std::ostream& out,
-		const TList<T>& l)
+	TList()
 	{
-		TNode<T>* node = l.pFirst;
-
-		out << "[ ";
-		while (node != nullptr)
-		{
-			out << node->value << ' ';
-			node = node->pNext;
-		}
-		out << "]";
-
-		return out;
+		pStop = nullptr;
+		pFirst = pLast = pPrev = pCurr = pStop;
+		length = 0;
 	}
 
-private:
-	void CopyNodesFrom(const TList<T>& other);
+	~TList()
+	{
+		while (pFirst != pStop)
+		{
+			TNode<T>* tmp = pFirst;
+			pFirst = pFirst->pNext;
+			delete tmp;
+		}
+		pLast = pPrev = pCurr = pStop;
+		length = 0;
+	}
+
+	bool IsEmpty()
+	{
+		return pFirst == pStop;
+	}
+
+	//Добавление элемента в начало списка
+	template <class T>
+	void InsFirst(T element)
+	{
+		TNode<T>* newNode = new TNode<T>();
+		newNode->value = element;
+		newNode->pNext = pFirst;
+		pFirst = newNode;
+		length++;
+		if (length == 1)
+			pLast = pFirst;
+	}
+
+	//Добавление элемента в конец списка
+	template <class T>
+	void InsLast(T element)
+	{
+		if (length > 0)
+		{
+			TNode<T>* newNode = new TNode<T>();
+			newNode->value = element;
+			newNode->pNext = pStop;
+
+			pLast->pNext = newNode;
+			pLast = newNode;
+			length++;
+		}
+		else
+		{
+			InsFirst(element);
+		}
+	}
+
+	//Добавление элемента в текущую позицию (перед текущим) (текущим становится добавленный)
+	template <class T>
+	void InsCurr(T element)
+	{
+		if (pCurr == pFirst)
+			InsFirst(element);
+		else if (pPrev = pLast)
+			InsLast(element);
+		else
+		{
+			TNode<T>* newNode = new TNode<T>();
+			newNode->value = element;
+
+			newNode->pNext = pCurr;
+			pPrev->pNext = newNode;
+			pCurr = newNode;
+			length++;
+		}
+	}
+
+	//Удаление первого элемента списка
+	template <class T>
+	void DelFirst()
+	{
+		if (length == 0) throw "Can't delete from an empty list";
+
+		TNode<T>* tmp = pFirst;
+		pFirst = pFirst->pNext;
+		delete tmp;
+
+		length--;
+
+		if (length == 0)
+			pLast = pPrev = pCurr = pStop;
+	}
+
+	//Удаление текущего элемента списка (текущим становится следующий за ним)
+	template <class T>
+	void DelCurr()
+	{
+		if (length == 0) throw "Can't delete from an empty list";
+
+		/* !!! Не факт, что это работает */
+		if (pCurr == pFirst)
+		{
+			DelFirst();
+			pCurr = pFirst;
+		}
+		else
+		{
+			pPrev->pNext = pCurr->pNext;
+			delete pCurr;
+			pCurr = pPrev->pNext;
+			length--;
+		}
+	}
 };
 
-template <class T>
-TList<T>::TList() : pFirst(nullptr), pLast(nullptr) {}
-
-template <class T>
-TList<T>::TList(const TList<T>& other)
+struct TMonom
 {
-	pFirst = nullptr;
-	pLast = nullptr;
-	CopyNodesFrom(other);
-	size = other.size;
-}
+	//Коэффициент
+	double coeff;
+	//Степени при x, y и z
+	int x, y, z;
 
-template <class T>
-TList<T>::~TList()
-{
-	Clear();
-}
-
-template <class T>
-TList<T>& TList<T>::operator=(const TList<T>& other)
-{
-	if (this == &other)
-		return *this;
-
-	Clear();
-	CopyNodesFrom(other);
-	size = other.size;
-}
-
-template <class T>
-bool TList<T>::IsEmpty() const
-{
-	return pFirst == nullptr;
-}
-
-template <class T>
-bool TList<T>::IsNotEmpty() const
-{
-	return pFirst != nullptr;
-}
-
-template <class T>
-bool TList<T>::operator==(const TList<T>& other) const
-{
-	TNode<T>* node = pFirst;
-	TNode<T>* nodeOther = other.pFirst;
-
-	//Сравнение элементов звеньев
-	while (node != nullptr && nodeOther != nullptr)
+	TMonom()
 	{
-		if (node->value != nodeOther->value) return false;
-		node = node->pNext;
-		nodeOther = nodeOther->pNext;
+		coeff = 0;
+		x = y = z = 0;
 	}
 
-	//Если в списках различно число элементов -
-	//они не равны
-	if (node != nullptr || nodeOther != nullptr)
-		return false;
-
-	return true;
-}
-
-template <class T>
-bool TList<T>::operator!=(const TList<T>& other) const
-{
-	return !operator==(other);
-}
-
-template <class T>
-void TList<T>::PushFront(T element)
-{
-	TNode<T>* newNode = new TNode<T>();
-	newNode->value = element;
-	newNode->pNext = pFirst;
-	pFirst = newNode;
-
-	size++;
-}
-
-template <class T>
-void TList<T>::PushBack(T element)
-{
-	TNode<T>* newNode = new TNode<T>();
-	newNode->value = element;
-	newNode->pNext = nullptr;
-
-	if (pLast != nullptr)
-		pLast->pNext = newNode;
-	else
-		pFirst = newNode;
-	pLast = newNode;
-
-	size++;
-}
-
-template <class T>
-T TList<T>::PopFront()
-{
-	if (IsEmpty())
-		throw TListException(
-			"Can't pop front from an empty list");
-
-	T value = pFirst->value;
-	TNode<T>* oldFirst = pFirst;
-	pFirst = oldFirst->pNext;
-	delete oldFirst;
-
-	if (pFirst == nullptr)
-		pLast = nullptr;
-
-	size--;
-	return value;
-}
-
-template <class T>
-T TList<T>::PopBack()
-{
-	if (IsEmpty())
-		throw TListException(
-			"Can't pop back from an empty list");
-
-	TNode<T>* prevNode = pFirst;
-	TNode<T>* node = pFirst;
-
-	while (node->pNext != nullptr)
+	bool operator==(const TMonom& other)
 	{
-		prevNode = node;
-		node = node->pNext;
+		return (x == other.x && y == other.y && z == other.z);
 	}
 
-	T value = node->value;
-
-	if (prevNode == node)
-	{
-		delete pFirst;
-		pFirst = nullptr;
-		pLast = nullptr;
-	}
-	else
-	{
-		delete pLast;
-		pLast = prevNode;
-		pLast->pNext = nullptr;
+	bool operator!=(const TMonom& other) {
+		return !operator==(other);
 	}
 
-	size--;
-	return value;
-}
-
-template <class T>
-T& TList<T>::Get(int index)
-{
-	if (index < 0 || index >= size)
-		throw TListException("Index out of bounds (list size is "
-			+ std::to_string(size) + ")");
-
-	int i = 0;
-	TNode<T>* node = pFirst;
-	while (node != nullptr)
+	bool operator<(const TMonom& other)
 	{
-		if (i == index)
-			return node->value;
-
-		node = node->pNext;
-		i++;
-	}
-}
-
-template <class T>
-T& TList<T>::operator[](int index)
-{
-	return Get(index);
-}
-
-template <class T>
-T TList<T>::GetFirst() const
-{
-	if(IsEmpty())
-		throw TListException(
-			"Can't get first element of an empty list");
-	return pFirst->value;
-}
-
-template <class T>
-T TList<T>::GetLast() const
-{
-	if (IsEmpty())
-		throw TListException(
-		"Can't get last element of an empty list");
-	return pLast->value;
-}
-
-template <class T>
-void TList<T>::Clear()
-{
-	TNode<T>* node;
-	while (pFirst != nullptr)
-	{
-		node = pFirst;
-		pFirst = pFirst->pNext;
-		delete node;
-	}
-	pLast = nullptr;
-}
-
-/* Последовательное копирование звеньев,
-   начиная с 1-го */
-template <class T>
-void TList<T>::CopyNodesFrom(
-	const TList<T>& other
-)
-{
-	if (other.IsNotEmpty())
-	{
-		TNode<T>* newNode;
-		//Копирование первого звена
-		newNode = new TNode<T>;
-		newNode->value = other.pFirst->value;
-		newNode->pNext = nullptr;
-		pFirst = newNode;
-
-		//Копирование остальных звеньев:
-
-		//Предыдущее звено текущего списка
-		TNode<T>* prevNewNode = newNode;
-
-		//Звено "другого" списка
-		TNode<T>* otherNode = other.pFirst->pNext;
-
-		while (otherNode != nullptr)
+		if (x < other.x) return true;
+		else if (x == other.x)
 		{
-			newNode = new TNode<T>;
-			newNode->value = otherNode->value;
-			newNode->pNext = nullptr;
-
-			prevNewNode->pNext = newNode;
-
-			prevNewNode = newNode;
-			otherNode = otherNode->pNext;
+			if (y < other.y) return true;
+			else if (y == other.y)
+			{
+				if (z < other.z) return true;
+				else if (z == other.z)
+				{
+					return coeff < other.coeff;
+				}
+				else return false;
+			}
+			else return false;
 		}
-		pLast = prevNewNode;
+		else return false;
 	}
-}
+
+	bool operator>(const TMonom& other)
+	{
+		return !operator==(other) && !operator<(other);
+	}
+
+	friend std::istream& operator>>(std::istream& is, TMonom& m)
+	{
+		is >> m.coeff >> m.x >> m.y >> m.z;
+		return is;
+	}
+
+	friend std::ostream& operator<<(std::ostream& os, TMonom& monom)
+	{
+		os << monom.coeff;
+		if (monom.x != 0)
+		{
+			os << "x";
+			if (monom.x != 1) os << "^" << monom.x;
+		}
+		if (monom.y != 0)
+		{
+			os << "y";
+			if (monom.y != 1) os << "^" << monom.y;
+		}
+		if (monom.z != 0)
+		{
+			os << "z";
+			if (monom.z != 1) os << "^" << monom.y;
+		}
+		return os;
+	}
+};

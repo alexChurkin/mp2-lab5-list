@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp2-lab5-list", "mp2-lab5-l
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task_211221", "Task_211221\Task_211221.vcxproj", "{2FC49B1C-1A48-4452-84D4-88606743A090}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp2-lab5-list-form", "mp2-lab5-list-form\mp2-lab5-list-form.vcxproj", "{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{2FC49B1C-1A48-4452-84D4-88606743A090}.Release|x64.Build.0 = Release|x64
 		{2FC49B1C-1A48-4452-84D4-88606743A090}.Release|x86.ActiveCfg = Release|Win32
 		{2FC49B1C-1A48-4452-84D4-88606743A090}.Release|x86.Build.0 = Release|Win32
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Debug|x64.ActiveCfg = Debug|x64
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Debug|x64.Build.0 = Debug|x64
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Debug|x86.ActiveCfg = Debug|Win32
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Debug|x86.Build.0 = Debug|Win32
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Release|x64.ActiveCfg = Release|x64
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Release|x64.Build.0 = Release|x64
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Release|x86.ActiveCfg = Release|Win32
+		{EE4A25A7-B99D-408B-9E5B-43B64B850A1E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
