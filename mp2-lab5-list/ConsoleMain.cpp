@@ -1,9 +1,9 @@
 #include <iostream>
-#include "TListAndMonom.h"
+#include "TPolinom.h"
 
 using namespace std;
 
-int main()
+void LaunchTListDemo()
 {
 	cout << "Console TList demo\n";
 	cout << "==================\n";
@@ -18,17 +18,17 @@ int main()
 	l.InsLast(4);
 
 	//1 2 3 4
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
 	cout << "\n";
 
-	l.Revert();
+	l.Reset();
 	l.InsCurr(0);
 
 	//0 1 2 3 4
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
@@ -37,18 +37,18 @@ int main()
 	l.InsCurr(5);
 
 	//0 1 2 3 4 5
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
 	cout << "\n";
 
-	l.Revert();
+	l.Reset();
 	l.GoNext();
 	l.InsCurr(777);
 
 	//0 777 1 2 3 4 5
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
@@ -57,7 +57,7 @@ int main()
 	l.DelFirst();
 
 	//777 1 2 3 4 5
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
@@ -73,11 +73,11 @@ int main()
 		cout << e;
 	}
 
-	l.Revert();
+	l.Reset();
 	l.DelCurr();
-	
+
 	//1 2 3 4 5
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
@@ -86,9 +86,43 @@ int main()
 	l.DelFirst();
 
 	//1 2 3 4 5
-	for (l.Revert(); !l.IsEnd(); l.GoNext())
+	for (l.Reset(); !l.IsEnd(); l.GoNext())
 	{
 		cout << l.GetCurr() << ' ';
 	}
 	cout << "\n";
+}
+
+void LaunchTPolinomDemo()
+{
+	TPolinom p1;
+	p1.AddMonom(TMonom(5, 1, 1, 1));
+	p1.AddMonom(TMonom(1, 2, 2, 2));
+	p1.AddMonom(TMonom(-4, 1, 1, 2));
+	p1.AddMonom(TMonom(3, 1, 2, 1));
+	p1.AddMonom(TMonom(2, 1, 2, 2));
+	cout << "P1 = " << p1 << '\n';
+
+	TPolinom p2;
+	p2.AddMonom(TMonom(5, 1, 1, 1));
+	p2.AddMonom(TMonom(1, 2, 2, 2));
+	p2.AddMonom(TMonom(-4, 1, 1, 2));
+	p2.AddMonom(TMonom(3, 1, 2, 1));
+	p2.AddMonom(TMonom(2, 1, 2, 2));
+
+	p2.AddMonom(TMonom(1.5, 4, 1, 1));
+	p2.AddMonom(TMonom(777, 1, 1, 0));
+	cout << "P2 = " << p2 << '\n';
+
+	TPolinom result = p1 + p2;
+	//Не работает
+	//cout << "P1 + P2 = " << p1 + p2 << '\n';
+	//Работает
+	cout << "P1 + P2 = " << result;
+}
+
+int main()
+{
+	//LaunchTListDemo();
+	LaunchTPolinomDemo();
 }

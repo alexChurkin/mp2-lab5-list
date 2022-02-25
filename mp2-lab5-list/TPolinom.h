@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<cmath>
 #include "THeadList.h"
 
 /* ..................... TMonom ..................... */
@@ -15,6 +16,14 @@ struct TMonom
 	{
 		coeff = 0;
 		x = y = z = 0;
+	}
+
+	TMonom(int _coeff, int _x, int _y, int _z)
+	{
+		coeff = _coeff;
+		x = _x;
+		y = _y;
+		z = _z;
 	}
 
 	TMonom(int _x, int _y, int _z)
@@ -68,21 +77,20 @@ struct TMonom
 
 	friend std::ostream& operator<<(std::ostream& os, TMonom& monom)
 	{
-		os << monom.coeff;
-		if (monom.x != 0)
+		if (monom.x > 0)
 		{
 			os << "x";
-			if (monom.x != 1) os << "^" << monom.x;
+			if (monom.x != 1) os << monom.x;
 		}
-		if (monom.y != 0)
+		if (monom.y > 0)
 		{
 			os << "y";
-			if (monom.y != 1) os << "^" << monom.y;
+			if (monom.y != 1) os << monom.y;
 		}
-		if (monom.z != 0)
+		if (monom.z > 0)
 		{
 			os << "z";
-			if (monom.z != 1) os << "^" << monom.y;
+			if (monom.z != 1) os << monom.z;
 		}
 		return os;
 	}
@@ -98,12 +106,34 @@ public:
 	//Const тут не пишем, иначе Reset и GetNext
 	//не будут работать
 	TPolinom(TPolinom& other);
+	TPolinom& operator=(TPolinom& other);
 
-	//TODO оператор присваивания (на след. занятии напишем)
 	void AddMonom(TMonom m);
 
-	//уточнить, & или нет в первом случае
-	TPolinom& operator+(TPolinom& p);
+	TPolinom operator+(TPolinom& other);
+
+	friend std::ostream& operator<<(std::ostream& os, TPolinom& p)
+	{
+		p.Reset();
+		if (p.IsEnd()) return os;
+
+		//Вывод первого элемента
+		TMonom m = p.GetCurr();
+		if (m.coeff < 0) os << "- ";
+		if (fabs(m.coeff) > 0.9999999 && fabs(m.coeff) < 1.0000001) os << m.coeff;
+		os << m;
+		p.GoNext();
+
+		for (; !p.IsEnd(); p.GoNext())
+		{
+			TMonom m = p.GetCurr();
+			if (m.coeff < 0) os << " - ";
+			else os << " + ";
+			if(fabs(m.coeff) > 0.9999999 && fabs(m.coeff) < 1.0000001) os << fabs(m.coeff);
+			os << m;
+		}
+		return os;
+	}
 };
 
 TPolinom::TPolinom():THeadList<TMonom>::THeadList()
@@ -125,6 +155,29 @@ TPolinom::TPolinom(TPolinom& other)
 		//Из существующего полинома текущий моном добавляется в конец в новый
 		InsLast(other.GetCurr());
 	}
+}
+
+TPolinom& TPolinom::operator=(TPolinom& other)
+{
+	//TODO оператор присваивания (на след. занятии напишем)
+
+	//Моя версия:
+	//Удаляем все звенья (кроме pHead)
+	while (pFirst != pStop)
+	{
+		TNode<TMonom>* tmp = pFirst;
+		pFirst = pFirst->pNext;
+		delete tmp;
+	}
+	//Ставим все значения указателей обратно на pHead
+	pFirst = pLast = pPrev = pCurr = pStop = pHead;
+	length = 0;
+
+	for (other.Reset(); !other.IsEnd(); other.GoNext())
+	{
+		AddMonom(other.GetCurr());
+	}
+	return *this;
 }
 
 void TPolinom::AddMonom(TMonom m)
@@ -153,13 +206,14 @@ void TPolinom::AddMonom(TMonom m)
 	}
 }
 
-TPolinom& TPolinom::operator+(TPolinom& other)
+TPolinom TPolinom::operator+(TPolinom& other)
 {
-	//TODO
-	TPolinom res(other);
+	TPolinom result(other);
 
-
-	//проход по this
-	//добавление к res
-	//возврат результата
+	for (Reset(); !IsEnd(); GoNext())
+	{
+		TMonom m = GetCurr();
+		result.AddMonom(m);
+	}
+	return result;
 }
