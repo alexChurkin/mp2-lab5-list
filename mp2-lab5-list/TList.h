@@ -73,7 +73,7 @@ public:
 	T GetCurr();
 
 	//Возврат итератора в исходное состояние
-	void Revert();
+	void Reset();
 	//Перевод итератора далее
 	void GoNext();
 	//Проверка на достижение итератором конца списка
@@ -107,8 +107,6 @@ TList<T>::~TList()
 		pFirst = pFirst->pNext;
 		delete tmp;
 	}
-	pLast = pPrev = pCurr = pStop;
-	length = 0;
 }
 
 template <class T>
@@ -208,7 +206,7 @@ T TList<T>::GetCurr()
 }
 
 template <class T>
-void TList<T>::Revert()
+void TList<T>::Reset()
 {
 	pPrev = pStop;
 	pCurr = pFirst;
@@ -226,80 +224,3 @@ bool TList<T>::IsEnd()
 {
 	return pCurr == pStop;
 }
-
-/* ..................... TMonom ..................... */
-
-struct TMonom
-{
-	//Коэффициент
-	double coeff;
-	//Степени при x, y и z
-	int x, y, z;
-
-	TMonom()
-	{
-		coeff = 0;
-		x = y = z = 0;
-	}
-
-	bool operator==(const TMonom& other)
-	{
-		return (x == other.x && y == other.y && z == other.z);
-	}
-
-	bool operator!=(const TMonom& other) {
-		return !operator==(other);
-	}
-
-	bool operator<(const TMonom& other)
-	{
-		if (x < other.x) return true;
-		else if (x == other.x)
-		{
-			if (y < other.y) return true;
-			else if (y == other.y)
-			{
-				if (z < other.z) return true;
-				else if (z == other.z)
-				{
-					return coeff < other.coeff;
-				}
-				else return false;
-			}
-			else return false;
-		}
-		else return false;
-	}
-
-	bool operator>(const TMonom& other)
-	{
-		return !operator==(other) && !operator<(other);
-	}
-
-	friend std::istream& operator>>(std::istream& is, TMonom& m)
-	{
-		is >> m.coeff >> m.x >> m.y >> m.z;
-		return is;
-	}
-
-	friend std::ostream& operator<<(std::ostream& os, TMonom& monom)
-	{
-		os << monom.coeff;
-		if (monom.x != 0)
-		{
-			os << "x";
-			if (monom.x != 1) os << "^" << monom.x;
-		}
-		if (monom.y != 0)
-		{
-			os << "y";
-			if (monom.y != 1) os << "^" << monom.y;
-		}
-		if (monom.z != 0)
-		{
-			os << "z";
-			if (monom.z != 1) os << "^" << monom.y;
-		}
-		return os;
-	}
-};
