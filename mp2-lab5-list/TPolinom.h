@@ -110,9 +110,10 @@ public:
 
 	void AddMonom(TMonom m);
 
-	TPolinom operator+(TPolinom& other);
 	TPolinom badOperatorPlus(TPolinom& other);
 
+	TPolinom operator+(TPolinom& other);
+	TPolinom operator-(TPolinom& other);
 	TPolinom operator*(float a);
 
 	friend std::ostream& operator<<(std::ostream& os, TPolinom& p)
@@ -266,6 +267,12 @@ TPolinom TPolinom::operator+(TPolinom& other)
 	return result;
 }
 
+TPolinom TPolinom::operator-(TPolinom& other)
+{
+	TPolinom result(other * (-1));
+	return operator+(result);
+}
+
 TPolinom TPolinom::operator*(float a)
 {
 	TPolinom result;
@@ -277,7 +284,8 @@ TPolinom TPolinom::operator*(float a)
 		TMonom m = GetCurr();
 		m.coeff *= a;
 
-		result.AddMonom(m);
+		//Переделать этот момент
+		//result.AddMonom(m);
 
 		//result.InsCurr(m);
 		//result.GoNext();
