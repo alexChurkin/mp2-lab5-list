@@ -42,7 +42,7 @@ struct TMonom
 
 	bool operator!=(const TMonom& other)
 	{
-		return !operator==(other);
+		return (x != other.x || y != other.y || z != other.z);
 	}
 
 	bool operator<(const TMonom& other)
@@ -53,13 +53,7 @@ struct TMonom
 			if (y < other.y) return true;
 			else if (y == other.y)
 			{
-				if (z < other.z) return true;
-				else if (z == other.z)
-				{
-					//return coeff < other.coeff;
-					return false;
-				}
-				else return false;
+				return z < other.z;
 			}
 			else return false;
 		}
@@ -249,7 +243,6 @@ void TPolinom::AddMonom(TMonom m)
 TPolinom TPolinom::operator+(TPolinom& other)
 {
 	TPolinom result(other);
-
 	Reset(); result.Reset();
 
 	while (!IsEnd())
@@ -289,6 +282,8 @@ TPolinom TPolinom::operator-(TPolinom& other)
 TPolinom TPolinom::operator*(float a)
 {
 	TPolinom result;
+
+	if (a == 0) return result;
 
 	for (Reset(); !IsEnd(); GoNext())
 	{
