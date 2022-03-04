@@ -123,6 +123,9 @@ void LaunchTPolinomDemo()
 	TPolinom p3;
 	p3.AddMonom(TMonom(1, 0, 0, 0));
 	cout << "P3 = " << p3 << '\n';
+
+	TPolinom p4 = result * (-100);
+	cout << "P4 = " << p4 << '\n';
 }
 
 int main()

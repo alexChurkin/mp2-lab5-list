@@ -113,6 +113,8 @@ public:
 	TPolinom operator+(TPolinom& other);
 	TPolinom badOperatorPlus(TPolinom& other);
 
+	TPolinom operator*(float a);
+
 	friend std::ostream& operator<<(std::ostream& os, TPolinom& p)
 	{
 		p.Reset();
@@ -121,25 +123,25 @@ public:
 		//Вывод первого элемента
 		TMonom m = p.GetCurr();
 		if (m.coeff < 0) os << "- ";
-		if(m.coeff != 1)
+		if(fabs(m.coeff) != 1)
 			os << m.coeff;
 
-		if ((m.x != 0 || m.y != 0 || m.z != 0) && m.coeff != 1)
+		if ((m.x != 0 || m.y != 0 || m.z != 0) && fabs(m.coeff) != 1)
 			os << "*";
 		os << m;
 		p.GoNext();
 
-		if (p.IsEnd() && m.coeff == 1) os << m.coeff;
+		if (p.IsEnd() && fabs(m.coeff) == 1) os << m.coeff;
 
 		for (; !p.IsEnd(); p.GoNext())
 		{
 			TMonom m = p.GetCurr();
 			if (m.coeff < 0) os << " - ";
 			else os << " + ";
-			if(m.coeff != 1)
+			if(fabs(m.coeff) != 1)
 				os << fabs(m.coeff);
 
-			if ((m.x != 0 || m.y != 0 || m.z != 0) && m.coeff != 1)
+			if ((m.x != 0 || m.y != 0 || m.z != 0) && fabs(m.coeff) != 1)
 				os << "*";
 			os << m;
 		}
@@ -231,35 +233,54 @@ TPolinom TPolinom::badOperatorPlus(TPolinom& other)
 
 TPolinom TPolinom::operator+(TPolinom& other)
 {
-	TPolinom res(other);
+	TPolinom result(other);
 
-	Reset(); res.Reset();
+	Reset(); result.Reset();
 
 	while (!IsEnd())
 	{
-		if (res.pCurr->value > pCurr->value)
+		if (result.pCurr->value > pCurr->value)
 		{
-			res.GoNext();
+			result.GoNext();
 		}
-		else if (res.pCurr->value < pCurr->value)
+		else if (result.pCurr->value < pCurr->value)
 		{
-			res.InsCurr(pCurr->value);
+			result.InsCurr(pCurr->value);
 			GoNext();
 		}
 		else
 		{
-			res.pCurr->value.coeff += pCurr->value.coeff;
-			if (res.pCurr->value.coeff == 0)
+			result.pCurr->value.coeff += pCurr->value.coeff;
+			if (result.pCurr->value.coeff == 0)
 			{
-				res.DelCurr();
+				result.DelCurr();
 				GoNext();
 			}
 			else
 			{
-				res.GoNext();
+				result.GoNext();
 				GoNext();
 			}
 		}
 	}
-	return res;
+	return result;
+}
+
+TPolinom TPolinom::operator*(float a)
+{
+	TPolinom result;
+
+	result.Reset();
+	
+	for (Reset(); !IsEnd(); GoNext())
+	{
+		TMonom m = GetCurr();
+		m.coeff *= a;
+
+		result.AddMonom(m);
+
+		//result.InsCurr(m);
+		//result.GoNext();
+	}
+	return result;
 }
