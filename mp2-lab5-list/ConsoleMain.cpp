@@ -93,7 +93,7 @@ void LaunchTListDemo()
 	cout << "\n";
 }
 
-void LaunchTPolinomDemo()
+void LaunchTPolinomDemo1()
 {
 	TPolinom p1;
 	p1.AddMonom(TMonom(5, 1, 1, 1));
@@ -114,22 +114,104 @@ void LaunchTPolinomDemo()
 	p2.AddMonom(TMonom(777, 1, 1, 0));
 	cout << "P2 = " << p2 << '\n';
 
-	TPolinom result = p1 + p2;
-	//Не работает
-	//cout << "P1 + P2 = " << p1 + p2 << '\n';
-	//Работает
-	cout << "P1 + P2 = " << result << '\n';
+	TPolinom result1(p1 + p2);
+	cout << "P1 + P2 = " << result1 << '\n';
+
+	TPolinom result2 = p1 + p2;
+	cout << "P1 + P2 = " << result2 << '\n';
 
 	TPolinom p3;
 	p3.AddMonom(TMonom(1, 0, 0, 0));
 	cout << "P3 = " << p3 << '\n';
 
-	TPolinom p4 = result * (-100);
+	TPolinom p4 = result1 * (-100);
 	cout << "P4 = " << p4 << '\n';
+
+	TPolinom p5 = p4;
+	cout << "P5 = " << p5 << '\n';
+
+	TPolinom p6 = p2 - p1;
+	cout << "P6 = P2 - P1 = " << p6 << '\n';
+}
+
+void LaunchTPolinomDemo2()
+{
+	/*TPolinom p1;
+	p1.AddMonom(TMonom(1, 0, 0, 0));
+	cout << "P1 = " << p1 << '\n';
+
+	TPolinom p2;
+	p2.AddMonom(TMonom(-1, 0, 0, 0));
+	cout << "P2 = " << p2 << '\n';
+
+	TPolinom s1 = p2 + p1;
+	cout << "P2 + P1 = " << s1 << "\n\n";*/
+
+	TPolinom p3;
+	p3.AddMonom(TMonom(1, 1, 0, 0));
+	//p3.AddMonom(TMonom(2, 0, 0, 0));
+	cout << "P3 = " << p3 << '\n';
+
+	/*TPolinom p4;
+	p4.AddMonom(TMonom(-1, 1, 0, 0));
+	//p4.AddMonom(TMonom(-2, 0, 0, 0));
+	cout << "P4 = " << p4 << '\n';
+
+	TPolinom s2 = p3 + p4;
+	cout << "P3 + P4 = " << s2 << '\n';*/
+}
+
+void LaunchTPolinomCoutTest()
+{
+	//P1 = 1
+	TPolinom p1;
+	p1.AddMonom(TMonom(1, 0, 0, 0));
+	cout << "P1 = " << p1 << '\n';
+
+	//P1 = -1
+	TPolinom p2;
+	p2.AddMonom(TMonom(-1, 0, 0, 0));
+	cout << "P2 = " << p2 << '\n';
+
+	//P3 = 5
+	TPolinom p3;
+	p3.AddMonom(TMonom(5, 0, 0, 0));
+	cout << "P3 = " << p3 << '\n';
+
+	//P4 = x + 1
+	TPolinom p4;
+	p4.AddMonom(TMonom(1, 1, 0, 0));
+	p4.AddMonom(TMonom(1, 0, 0, 0));
+	cout << "P4 = " << p4 << '\n';
+
+	//P5 = x - 1
+	TPolinom p5;
+	p5.AddMonom(TMonom(1, 1, 0, 0));
+	p5.AddMonom(TMonom(-1, 0, 0, 0));
+	cout << "P5 = " << p5 << '\n';
+
+	//P6 = x2 + x + 1
+	TPolinom p6;
+	p6.AddMonom(TMonom(1, 2, 0, 0));
+	p6.AddMonom(TMonom(1, 1, 0, 0));
+	p6.AddMonom(TMonom(1, 0, 0, 0));
+	cout << "P6 = " << p6 << '\n';
+
+	//P7 = 2*x2 - 4*x + 10
+	TPolinom p7;
+	p7.AddMonom(TMonom(2, 2, 0, 0));
+	p7.AddMonom(TMonom(-4, 1, 0, 0));
+	p7.AddMonom(TMonom(10, 0, 0, 0));
+	cout << "P7 = " << p7 << '\n';
 }
 
 int main()
 {
 	//LaunchTListDemo();
-	LaunchTPolinomDemo();
+	//LaunchTPolinomDemo1();
+	//LaunchTPolinomDemo2();
+	LaunchTPolinomCoutTest();
 }
+
+//Не работает
+//cout << "P1 + P2 = " << (p1 + p2) << '\n';

@@ -34,6 +34,7 @@ struct TMonom
 		z = _z;
 	}
 
+	//Равенство с точностью до постоянного множителя
 	bool operator==(const TMonom& other)
 	{
 		return (x == other.x && y == other.y && z == other.z);
@@ -55,7 +56,8 @@ struct TMonom
 				if (z < other.z) return true;
 				else if (z == other.z)
 				{
-					return coeff < other.coeff;
+					//return coeff < other.coeff;
+					return false;
 				}
 				else return false;
 			}
@@ -66,7 +68,12 @@ struct TMonom
 
 	bool operator>(const TMonom& other)
 	{
-		return !operator==(other) && !operator<(other);
+		return !operator<(other) && !operator==(other);
+	}
+
+	bool IsConst()
+	{
+		return x == 0 && y == 0 && z == 0;
 	}
 
 	friend std::istream& operator>>(std::istream& is, TMonom& m)
@@ -77,20 +84,23 @@ struct TMonom
 
 	friend std::ostream& operator<<(std::ostream& os, TMonom& monom)
 	{
-		if (monom.x > 0)
+		if (monom.x != 0)
 		{
 			os << "x";
-			if (monom.x != 1) os << monom.x;
+			if (monom.x != 1)
+				os << monom.x;
 		}
-		if (monom.y > 0)
+		if (monom.y != 0)
 		{
 			os << "y";
-			if (monom.y != 1) os << monom.y;
+			if (monom.y != 1)
+				os << monom.y;
 		}
-		if (monom.z > 0)
+		if (monom.z != 0)
 		{
 			os << "z";
-			if (monom.z != 1) os << monom.z;
+			if (monom.z != 1)
+				os << monom.z;
 		}
 		return os;
 	}
@@ -110,41 +120,57 @@ public:
 
 	void AddMonom(TMonom m);
 
-	TPolinom badOperatorPlus(TPolinom& other);
-
 	TPolinom operator+(TPolinom& other);
 	TPolinom operator-(TPolinom& other);
 	TPolinom operator*(float a);
 
 	friend std::ostream& operator<<(std::ostream& os, TPolinom& p)
 	{
+		//Нулевой полином
 		p.Reset();
-		if (p.IsEnd()) return os;
+		if (p.IsEnd())
+		{
+			os << "0";
+			return os;
+		}
 
-		//Вывод первого элемента
+		//Вывод для первого монома полинома
 		TMonom m = p.GetCurr();
+		float absCoeff = fabs(m.coeff);
+
 		if (m.coeff < 0) os << "- ";
-		if(fabs(m.coeff) != 1)
-			os << m.coeff;
 
-		if ((m.x != 0 || m.y != 0 || m.z != 0) && fabs(m.coeff) != 1)
-			os << "*";
-		os << m;
+		//Моном был константный
+		if (m.IsConst())
+		{
+			os << absCoeff;
+		}
+		//Не константный
+		else {
+			if (absCoeff != 1) os << absCoeff << "*";
+			os << m;
+		}
+
 		p.GoNext();
-
-		if (p.IsEnd() && fabs(m.coeff) == 1) os << m.coeff;
 
 		for (; !p.IsEnd(); p.GoNext())
 		{
 			TMonom m = p.GetCurr();
+			float absCoeff = fabs(m.coeff);
+
 			if (m.coeff < 0) os << " - ";
 			else os << " + ";
-			if(fabs(m.coeff) != 1)
-				os << fabs(m.coeff);
 
-			if ((m.x != 0 || m.y != 0 || m.z != 0) && fabs(m.coeff) != 1)
-				os << "*";
-			os << m;
+			if (m.IsConst())
+			{
+				os << absCoeff;
+			}
+			else
+			{
+				if (absCoeff != 1)
+					os << absCoeff << "*";
+				os << m;
+			}
 		}
 		return os;
 	}
@@ -220,18 +246,6 @@ void TPolinom::AddMonom(TMonom m)
 	}
 }
 
-TPolinom TPolinom::badOperatorPlus(TPolinom& other)
-{
-	TPolinom result(other);
-
-	for (Reset(); !IsEnd(); GoNext())
-	{
-		TMonom m = GetCurr();
-		result.AddMonom(m);
-	}
-	return result;
-}
-
 TPolinom TPolinom::operator+(TPolinom& other)
 {
 	TPolinom result(other);
@@ -269,26 +283,33 @@ TPolinom TPolinom::operator+(TPolinom& other)
 
 TPolinom TPolinom::operator-(TPolinom& other)
 {
-	TPolinom result(other * (-1));
-	return operator+(result);
+	return operator+(other.operator*(-1));
 }
 
 TPolinom TPolinom::operator*(float a)
 {
 	TPolinom result;
 
-	result.Reset();
-	
 	for (Reset(); !IsEnd(); GoNext())
 	{
 		TMonom m = GetCurr();
 		m.coeff *= a;
 
-		//Переделать этот момент
-		//result.AddMonom(m);
-
-		//result.InsCurr(m);
-		//result.GoNext();
+		result.InsLast(m);
 	}
 	return result;
 }
+
+/*
+TPolinom TPolinom::badOperatorPlus(TPolinom& other)
+{
+	TPolinom result(other);
+
+	for (Reset(); !IsEnd(); GoNext())
+	{
+		TMonom m = GetCurr();
+		result.AddMonom(m);
+	}
+	return result;
+}
+*/
