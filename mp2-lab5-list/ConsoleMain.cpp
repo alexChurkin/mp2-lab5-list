@@ -203,6 +203,24 @@ void LaunchTPolinomCoutTest()
 	p7.AddMonom(TMonom(-4, 1, 0, 0));
 	p7.AddMonom(TMonom(10, 0, 0, 0));
 	cout << "P7 = " << p7 << '\n';
+
+	//P8 = xyz
+	TPolinom p8;
+	p8.AddMonom(TMonom(1, 1, 1, 1));
+	cout << "P8 = " << p8 << '\n';
+
+	//P9 = -x2y
+	TPolinom p9;
+	p9.AddMonom(TMonom(-1, 2, 1, 0));
+	cout << "P9 = " << p9 << '\n';
+
+	//P10 = -10*x3y2z + 5*yz - 3*y + 3
+	TPolinom p10;
+	p10.AddMonom(TMonom(-10, 3, 2, 1));
+	p10.AddMonom(TMonom(5, 0, 1, 1));
+	p10.AddMonom(TMonom(-3, 0, 1, 0));
+	p10.AddMonom(TMonom(3, 0, 0, 0));
+	cout << "P10 = " << p10 << '\n';
 }
 
 int main()
