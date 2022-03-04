@@ -111,6 +111,7 @@ public:
 	void AddMonom(TMonom m);
 
 	TPolinom operator+(TPolinom& other);
+	TPolinom badOperatorPlus(TPolinom& other);
 
 	friend std::ostream& operator<<(std::ostream& os, TPolinom& p)
 	{
@@ -120,23 +121,33 @@ public:
 		//Вывод первого элемента
 		TMonom m = p.GetCurr();
 		if (m.coeff < 0) os << "- ";
-		if (fabs(m.coeff) > 0.9999999 && fabs(m.coeff) < 1.0000001) os << m.coeff;
+		if(m.coeff != 1)
+			os << m.coeff;
+
+		if ((m.x != 0 || m.y != 0 || m.z != 0) && m.coeff != 1)
+			os << "*";
 		os << m;
 		p.GoNext();
+
+		if (p.IsEnd() && m.coeff == 1) os << m.coeff;
 
 		for (; !p.IsEnd(); p.GoNext())
 		{
 			TMonom m = p.GetCurr();
 			if (m.coeff < 0) os << " - ";
 			else os << " + ";
-			if(fabs(m.coeff) > 0.9999999 && fabs(m.coeff) < 1.0000001) os << fabs(m.coeff);
+			if(m.coeff != 1)
+				os << fabs(m.coeff);
+
+			if ((m.x != 0 || m.y != 0 || m.z != 0) && m.coeff != 1)
+				os << "*";
 			os << m;
 		}
 		return os;
 	}
 };
 
-TPolinom::TPolinom():THeadList<TMonom>::THeadList()
+TPolinom::TPolinom() :THeadList<TMonom>::THeadList()
 {
 	TMonom m;
 
@@ -206,7 +217,7 @@ void TPolinom::AddMonom(TMonom m)
 	}
 }
 
-TPolinom TPolinom::operator+(TPolinom& other)
+TPolinom TPolinom::badOperatorPlus(TPolinom& other)
 {
 	TPolinom result(other);
 
@@ -216,4 +227,39 @@ TPolinom TPolinom::operator+(TPolinom& other)
 		result.AddMonom(m);
 	}
 	return result;
+}
+
+TPolinom TPolinom::operator+(TPolinom& other)
+{
+	TPolinom res(other);
+
+	Reset(); res.Reset();
+
+	while (!IsEnd())
+	{
+		if (res.pCurr->value > pCurr->value)
+		{
+			res.GoNext();
+		}
+		else if (res.pCurr->value < pCurr->value)
+		{
+			res.InsCurr(pCurr->value);
+			GoNext();
+		}
+		else
+		{
+			res.pCurr->value.coeff += pCurr->value.coeff;
+			if (res.pCurr->value.coeff == 0)
+			{
+				res.DelCurr();
+				GoNext();
+			}
+			else
+			{
+				res.GoNext();
+				GoNext();
+			}
+		}
+	}
+	return res;
 }

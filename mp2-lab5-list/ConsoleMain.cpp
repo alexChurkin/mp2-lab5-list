@@ -118,7 +118,11 @@ void LaunchTPolinomDemo()
 	//Не работает
 	//cout << "P1 + P2 = " << p1 + p2 << '\n';
 	//Работает
-	cout << "P1 + P2 = " << result;
+	cout << "P1 + P2 = " << result << '\n';
+
+	TPolinom p3;
+	p3.AddMonom(TMonom(1, 0, 0, 0));
+	cout << "P3 = " << p3 << '\n';
 }
 
 int main()
