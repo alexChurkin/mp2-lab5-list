@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "TList.h"
 
 /* .................... THeadList .................... */
@@ -23,6 +22,7 @@ THeadList<T>::THeadList()
 	pHead->pNext = pHead;
 	pFirst = pLast = pPrev = pCurr = pStop = pHead;
 	length = 0;
+	cout << "THeadList constructor called!!!\n";
 }
 
 //Также есть другой способ реализовать деструктор - через DelFirst
@@ -46,12 +46,14 @@ void THeadList<T>::InsFirst(T element)
 	//Вызов метода родительского класса
 	TList::InsFirst(element);
 	pHead->pNext = pFirst;
+	cout << "THeadList InsFirst called!!!\n";
 }
 
 template <class T>
 void THeadList<T>::DelFirst()
 {
 	//Вызов метода родительского класса
-	TList::DelFirst();
+	TList<T>::DelFirst();
+	cout << "DelFirst for THeadList called!!!";
 	pHead->pNext = pFirst;
 }

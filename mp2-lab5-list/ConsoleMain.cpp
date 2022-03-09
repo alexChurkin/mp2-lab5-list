@@ -198,17 +198,6 @@ void LaunchTPolinomDemo1()
 
 void LaunchTPolinomDemo2()
 {
-	/*TPolinom p1;
-	p1.AddMonom(TMonom(1, 0, 0, 0));
-	cout << "P1 = " << p1 << '\n';
-
-	TPolinom p2;
-	p2.AddMonom(TMonom(-1, 0, 0, 0));
-	cout << "P2 = " << p2 << '\n';
-
-	TPolinom s1 = p2 + p1;
-	cout << "P2 + P1 = " << s1 << "\n\n";*/
-
 	TPolinom p3;
 	p3.AddMonom(TMonom(1, 1, 0, 0));
 	p3.AddMonom(TMonom(2, 0, 0, 0));
@@ -219,17 +208,32 @@ void LaunchTPolinomDemo2()
 	p4.AddMonom(TMonom(-2, 0, 0, 0));
 	cout << "P4 = " << p4 << '\n';
 
-	TPolinom s2 = p3 + p4;
-	cout << "P3 + P4 = " << s2 << '\n';
+	TPolinom s2 = p4 + p3;
+	cout << "P4 + P3 = " << s2 << '\n';
 
-	TPolinom p7;
-	p7.AddMonom(TMonom(2, 2, 0, 0));
-	p7.AddMonom(TMonom(-4, 1, 0, 0));
-	p7.AddMonom(TMonom(10, 0, 0, 0));
-	cout << "P7 = " << p7 << '\n';
 
-	TPolinom p6 = p7;
-	cout << "P6 = " << p6 << '\n';
+
+	/*TPolinom p1;
+	p1.AddMonom(TMonom(1, 0, 0, 0));
+	cout << "P1 = " << p1 << '\n';
+	
+	TPolinom p2;
+	p2.AddMonom(TMonom(-1, 0, 0, 0));
+	cout << "P2 = " << p2 << '\n';
+	
+	TPolinom s1 = p2 + p1;
+	cout << "P2 + P1 = " << s1 << "\n\n";*/
+
+
+/*
+TPolinom p7;
+p7.AddMonom(TMonom(2, 2, 0, 0));
+p7.AddMonom(TMonom(-4, 1, 0, 0));
+p7.AddMonom(TMonom(10, 0, 0, 0));
+cout << "P7 = " << p7 << '\n';
+
+TPolinom p6 = p7;
+cout << "P6 = " << p6 << '\n';*/
 }
 
 int main()
@@ -239,7 +243,8 @@ int main()
 
 	//LaunchTPolinomDemo1();
 	LaunchTPolinomDemo2();
-	
+
+	return 0;
 }
 
 //Не работает

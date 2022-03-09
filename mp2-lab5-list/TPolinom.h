@@ -1,5 +1,4 @@
 #pragma once
-#include<iostream>
 #include<cmath>
 #include "THeadList.h"
 
@@ -112,6 +111,11 @@ public:
 	TPolinom(TPolinom& other);
 	TPolinom& operator=(TPolinom& other);
 
+	void DelCurr()
+	{
+		THeadList<TMonom>::DelCurr();
+	}
+
 	void AddMonom(TMonom m);
 
 	TPolinom operator+(TPolinom& other);
@@ -173,10 +177,9 @@ public:
 TPolinom::TPolinom() :THeadList<TMonom>::THeadList()
 {
 	TMonom m;
-
 	m.coeff = 0;
-
 	m.x = m.y = 0, m.z = -1;
+
 	pHead->value = m;
 }
 

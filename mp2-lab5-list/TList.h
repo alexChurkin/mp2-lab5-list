@@ -168,6 +168,8 @@ void TList<T>::InsCurr(T element)
 template <class T>
 void TList<T>::DelFirst()
 {
+	cout << "DelFirst for TList called!!!";
+
 	if (pFirst == pStop)
 		throw TLException("Can't delete first element: it's a barrier");
 
@@ -185,6 +187,7 @@ void TList<T>::DelCurr()
 
 	if (pFirst == pCurr)
 	{
+		//бнопня!!!
 		DelFirst();
 	}
 	else
