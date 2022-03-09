@@ -204,18 +204,14 @@ TPolinom& TPolinom::operator=(TPolinom& other)
 	pFirst = pLast = pPrev = pCurr = pStop = pHead;
 	length = 0;
 
-	//other пуст - вернём пустой this
-	if (other.IsEmpty()) return *this;
-	
+	//Заполним наш полином мономами из other
 	other.Reset();
-	InsFirst(other.GetCurr());
-	other.GoNext();
-
 	while (!other.IsEnd())
 	{
 		InsLast(other.GetCurr());
 		other.GoNext();
 	}
+	return *this;
 }
 
 void TPolinom::AddMonom(TMonom m)
