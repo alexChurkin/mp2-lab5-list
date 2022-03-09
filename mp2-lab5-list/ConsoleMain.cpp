@@ -159,6 +159,15 @@ void LaunchTPolinomDemo2()
 
 	TPolinom s2 = p3 + p4;
 	cout << "P3 + P4 = " << s2 << '\n';
+
+	TPolinom p7;
+	p7.AddMonom(TMonom(2, 2, 0, 0));
+	p7.AddMonom(TMonom(-4, 1, 0, 0));
+	p7.AddMonom(TMonom(10, 0, 0, 0));
+	cout << "P7 = " << p7 << '\n';
+
+	TPolinom p6 = p7;
+	cout << "P6 = " << p6 << '\n';
 }
 
 void LaunchTPolinomCoutTest()
@@ -226,9 +235,11 @@ void LaunchTPolinomCoutTest()
 int main()
 {
 	//LaunchTListDemo();
+	//LaunchTPolinomCoutTest();
+
 	//LaunchTPolinomDemo1();
 	LaunchTPolinomDemo2();
-	LaunchTPolinomCoutTest();
+	
 }
 
 //Не работает

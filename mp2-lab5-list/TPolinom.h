@@ -193,9 +193,6 @@ TPolinom::TPolinom(TPolinom& other)
 
 TPolinom& TPolinom::operator=(TPolinom& other)
 {
-	//TODO оператор присваивания (на след. занятии напишем)
-
-	//Моя версия:
 	//Удаляем все звенья (кроме pHead)
 	while (pFirst != pStop)
 	{
@@ -207,11 +204,18 @@ TPolinom& TPolinom::operator=(TPolinom& other)
 	pFirst = pLast = pPrev = pCurr = pStop = pHead;
 	length = 0;
 
-	for (other.Reset(); !other.IsEnd(); other.GoNext())
+	//other пуст - вернём пустой this
+	if (other.IsEmpty()) return *this;
+	
+	other.Reset();
+	InsFirst(other.GetCurr());
+	other.GoNext();
+
+	while (!other.IsEnd())
 	{
-		AddMonom(other.GetCurr());
+		InsLast(other.GetCurr());
+		other.GoNext();
 	}
-	return *this;
 }
 
 void TPolinom::AddMonom(TMonom m)
