@@ -208,10 +208,7 @@ void LaunchTPolinomDemo2()
 	p4.AddMonom(TMonom(-2, 0, 0, 0));
 	cout << "P4 = " << p4 << '\n';
 
-	TPolinom s2 = p4 + p3;
-	cout << "P4 + P3 = " << s2 << '\n';
-
-
+	cout << "P4 + P3 = " << p4 + p3 << '\n';
 
 	/*TPolinom p1;
 	p1.AddMonom(TMonom(1, 0, 0, 0));
@@ -246,6 +243,3 @@ int main()
 
 	return 0;
 }
-
-//Не работает
-//cout << "P1 + P2 = " << (p1 + p2) << '\n';

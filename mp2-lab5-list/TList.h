@@ -48,24 +48,24 @@ protected:
 	//pStop будет равен указателю на голову, чтобы не иметь
 	//проблем при переходе от лин. списка к кольцевому
 	TNode<T>* pStop;
-	//Длина списка
+	//Счётчик длины списка
 	int length;
 
 public:
 	TList();
-	~TList();
+	virtual ~TList();
 
 	bool IsEmpty();
 
 	//Добавление элемента в начало списка
-	void InsFirst(T element);
+	virtual void InsFirst(T element);
 	//Добавление элемента в конец списка
 	void InsLast(T element);
 	//Добавление элемента в текущую позицию (перед текущим) (текущим становится добавленный)
 	void InsCurr(T element);
 
 	//Удаление первого элемента списка
-	void DelFirst();
+	virtual void DelFirst();
 	//Удаление текущего элемента списка (текущим становится следующий за ним)
 	void DelCurr();
 
@@ -79,14 +79,14 @@ public:
 	//Проверка на достижение итератором конца списка
 	bool IsEnd();
 
+	virtual void print(std::ostream& os);
+
 	friend std::ostream& operator<<(
-		std::ostream& out,
-		const TList<T>& l)
+		std::ostream& os,
+		TList<T>& l)
 	{
-		out << "[ ";
-		//TODO Later
-		out << "]";
-		return out;
+		l.print(os);
+		return os;
 	}
 };
 
@@ -168,8 +168,6 @@ void TList<T>::InsCurr(T element)
 template <class T>
 void TList<T>::DelFirst()
 {
-	cout << "DelFirst for TList called!!!";
-
 	if (pFirst == pStop)
 		throw TLException("Can't delete first element: it's a barrier");
 
@@ -187,7 +185,7 @@ void TList<T>::DelCurr()
 
 	if (pFirst == pCurr)
 	{
-		//ВОПРОС!!!
+		//
 		DelFirst();
 	}
 	else
@@ -226,4 +224,21 @@ template <class T>
 bool TList<T>::IsEnd()
 {
 	return pCurr == pStop;
+}
+
+template <class T>
+void TList<T>::print(std::ostream& os)
+{
+	os << "[ ";
+	//TODO Later
+	TNode<T>* t = pFirst;
+	
+	while (t->pNext != pStop)
+	{
+		os << t->value << " ";
+		t = t->pNext;
+	}
+
+
+	os << "]";
 }

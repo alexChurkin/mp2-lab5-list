@@ -111,70 +111,24 @@ public:
 	TPolinom(TPolinom& other);
 	TPolinom& operator=(TPolinom& other);
 
-	void DelCurr()
-	{
-		THeadList<TMonom>::DelCurr();
-	}
-
 	void AddMonom(TMonom m);
 
 	TPolinom operator+(TPolinom& other);
 	TPolinom operator-(TPolinom& other);
 	TPolinom operator*(float a);
 
-	friend std::ostream& operator<<(std::ostream& os, TPolinom& p)
+	void print(std::ostream& os);
+
+	friend std::ostream& operator<<(
+		std::ostream& os,
+		TPolinom& p)
 	{
-		//Нулевой полином
-		p.Reset();
-		if (p.IsEnd())
-		{
-			os << "0";
-			return os;
-		}
-
-		//Вывод для первого монома полинома
-		TMonom m = p.GetCurr();
-		float absCoeff = fabs(m.coeff);
-
-		if (m.coeff < 0) os << "- ";
-
-		//Моном был константный
-		if (m.IsConst())
-		{
-			os << absCoeff;
-		}
-		//Не константный
-		else {
-			if (absCoeff != 1) os << absCoeff << "*";
-			os << m;
-		}
-
-		p.GoNext();
-
-		for (; !p.IsEnd(); p.GoNext())
-		{
-			TMonom m = p.GetCurr();
-			float absCoeff = fabs(m.coeff);
-
-			if (m.coeff < 0) os << " - ";
-			else os << " + ";
-
-			if (m.IsConst())
-			{
-				os << absCoeff;
-			}
-			else
-			{
-				if (absCoeff != 1)
-					os << absCoeff << "*";
-				os << m;
-			}
-		}
+		p.print(os);
 		return os;
 	}
 };
 
-TPolinom::TPolinom() :THeadList<TMonom>::THeadList()
+TPolinom::TPolinom() :THeadList::THeadList()
 {
 	TMonom m;
 	m.coeff = 0;
@@ -189,7 +143,7 @@ TPolinom::TPolinom(TPolinom& other)
 	pHead->value = m;
 	for (other.Reset(); !other.IsEnd(); other.GoNext())
 	{
-		//Из существующего полинома текущий моном добавляется в конец в новый
+		//Из существующего полинома текущий моном добавляется в конец нового
 		InsLast(other.GetCurr());
 	}
 }
@@ -250,6 +204,8 @@ TPolinom TPolinom::operator+(TPolinom& other)
 
 	while (!IsEnd())
 	{
+		std::cout << result << '\n';
+
 		if (result.pCurr->value > pCurr->value)
 		{
 			result.GoNext();
@@ -297,6 +253,57 @@ TPolinom TPolinom::operator*(float a)
 	}
 	return result;
 }
+
+void TPolinom::print(std::ostream& os)
+{
+	//Нулевой полином
+	Reset();
+	if (IsEnd())
+	{
+		os << "0";
+		return;
+	}
+
+	//Вывод для первого монома полинома
+	TMonom m = GetCurr();
+	float absCoeff = fabs(m.coeff);
+
+	if (m.coeff < 0) os << "- ";
+
+	//Моном был константный
+	if (m.IsConst())
+	{
+		os << absCoeff;
+	}
+	//Не константный
+	else {
+		if (absCoeff != 1) os << absCoeff << "*";
+		os << m;
+	}
+
+	GoNext();
+
+	for (; !IsEnd(); GoNext())
+	{
+		TMonom m = GetCurr();
+		float absCoeff = fabs(m.coeff);
+
+		if (m.coeff < 0) os << " - ";
+		else os << " + ";
+
+		if (m.IsConst())
+		{
+			os << absCoeff;
+		}
+		else
+		{
+			if (absCoeff != 1)
+				os << absCoeff << "*";
+			os << m;
+		}
+	}
+}
+
 
 /*
 TPolinom TPolinom::badOperatorPlus(TPolinom& other)
