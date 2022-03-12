@@ -5,7 +5,7 @@ using namespace std;
 
 void LaunchTListDemo()
 {
-	cout << "Console TList demo\n";
+	cout << "TList demo\n";
 	cout << "==================\n";
 	TList<int> l;
 	l.InsFirst(3);
@@ -113,6 +113,9 @@ void LaunchTPolynomPrintDemo()
 
 void LaunchTPolynomDemo()
 {
+	cout << "TPolynom sum demo\n";
+	cout << "==================\n";
+
 	TPolynom p3;
 	p3.AddMonom(TMonom(1, 1, 0, 0));
 	p3.AddMonom(TMonom(2, 0, 0, 0));
@@ -128,8 +131,10 @@ void LaunchTPolynomDemo()
 
 int main()
 {
-	//LaunchTListDemo();
-	//LaunchTPolynomPrintDemo();
+	LaunchTListDemo();
+	cout << '\n';
+	LaunchTPolynomPrintDemo();
+	cout << '\n';
 	LaunchTPolynomDemo();
 
 	return 0;
