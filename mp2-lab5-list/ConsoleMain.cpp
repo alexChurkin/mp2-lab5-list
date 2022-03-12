@@ -8,55 +8,49 @@ void LaunchTListDemo()
 	cout << "Console TList demo\n";
 	cout << "==================\n";
 	TList<int> l;
-	l.InsLast(1);
-	l.InsLast(2);
-	l.InsLast(3);
+	l.InsFirst(3);
+	l.InsFirst(2);
+	l.InsFirst(1);
 
-	//1 2 3
 	cout << l << "\n";
 
 	l.InsLast(4);
 
-	//1 2 3 4
 	cout << l << '\n';
 
 	l.Reset();
 	l.InsCurr(0);
 
-	//0 1 2 3 4
 	cout << l << '\n';
 
 	l.InsCurr(5);
 
-	//0 1 2 3 4 5
 	cout << l << '\n';
 
 	l.Reset();
 	l.GoNext();
 	l.InsCurr(777);
 
-	//0 777 1 2 3 4 5
 	cout << l << '\n';
 
 	l.DelFirst();
 
-	//777 1 2 3 4 5
 	cout << l << '\n';
 
 	l.Reset();
 	l.DelCurr();
 
-	//1 2 3 4 5
 	cout << l << '\n';
 
 	l.DelFirst();
 
-	//1 2 3 4 5
 	cout << l << '\n';
 }
 
-void LaunchTPolynomCoutDemo()
+void LaunchTPolynomPrintDemo()
 {
+	cout << "TPolynom print demo\n";
+	cout << "==================\n";
 	//P1 = 1
 	TPolynom p1;
 	p1.AddMonom(TMonom(1, 0, 0, 0));
@@ -117,48 +111,7 @@ void LaunchTPolynomCoutDemo()
 	cout << "P10 = " << p10 << '\n';
 }
 
-void LaunchTPolynomDemo1()
-{
-	TPolynom p1;
-	p1.AddMonom(TMonom(5, 1, 1, 1));
-	p1.AddMonom(TMonom(1, 2, 2, 2));
-	p1.AddMonom(TMonom(-4, 1, 1, 2));
-	p1.AddMonom(TMonom(3, 1, 2, 1));
-	p1.AddMonom(TMonom(2, 1, 2, 2));
-	cout << "P1 = " << p1 << '\n';
-
-	TPolynom p2;
-	p2.AddMonom(TMonom(5, 1, 1, 1));
-	p2.AddMonom(TMonom(1, 2, 2, 2));
-	p2.AddMonom(TMonom(-4, 1, 1, 2));
-	p2.AddMonom(TMonom(3, 1, 2, 1));
-	p2.AddMonom(TMonom(2, 1, 2, 2));
-
-	p2.AddMonom(TMonom(1.5, 4, 1, 1));
-	p2.AddMonom(TMonom(777, 1, 1, 0));
-	cout << "P2 = " << p2 << '\n';
-
-	TPolynom result1(p1 + p2);
-	cout << "P1 + P2 = " << result1 << '\n';
-
-	TPolynom result2 = p1 + p2;
-	cout << "P1 + P2 = " << result2 << '\n';
-
-	TPolynom p3;
-	p3.AddMonom(TMonom(1, 0, 0, 0));
-	cout << "P3 = " << p3 << '\n';
-
-	TPolynom p4 = result1 * (-100);
-	cout << "P4 = " << p4 << '\n';
-
-	TPolynom p5 = p4;
-	cout << "P5 = " << p5 << '\n';
-
-	TPolynom p6 = p2 - p1;
-	cout << "P6 = P2 - P1 = " << p6 << '\n';
-}
-
-void LaunchTPolynomDemo2()
+void LaunchTPolynomDemo()
 {
 	TPolynom p3;
 	p3.AddMonom(TMonom(1, 1, 0, 0));
@@ -176,10 +129,8 @@ void LaunchTPolynomDemo2()
 int main()
 {
 	//LaunchTListDemo();
-	//LaunchTPolynomCoutDemo();
-
-	//LaunchTPolynomDemo1();
-	LaunchTPolynomDemo2();
+	//LaunchTPolynomPrintDemo();
+	LaunchTPolynomDemo();
 
 	return 0;
 }

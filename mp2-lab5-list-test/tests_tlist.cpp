@@ -99,7 +99,7 @@ TEST(TList, CanDeleteFirstElement)
 	std::cout << "\t     " << t << '\n';
 }
 
-TEST(TList, CanDeleteCurrentElementWhenFirst)
+TEST(TList, CanDelete2CurrentElementsWhenFirst)
 {
 	TList<int> t;
 	t.InsLast(1); t.InsLast(2);
@@ -108,7 +108,7 @@ TEST(TList, CanDeleteCurrentElementWhenFirst)
 	t.Reset();
 
 	ASSERT_NO_THROW(t.DelCurr());
-	t.DelCurr();
+	ASSERT_NO_THROW(t.DelCurr());
 
 	std::cout << "\t     " << t << '\n';
 }

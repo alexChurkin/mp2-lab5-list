@@ -119,7 +119,7 @@ public:
 
 	TPolynom operator+(TPolynom& other);
 	TPolynom operator-(TPolynom& other);
-	TPolynom operator*(float a);
+	TPolynom operator*(double a);
 
 	friend std::ostream& operator<<(
 		std::ostream& os,
@@ -127,6 +127,13 @@ public:
 	{
 		p.Print(os);
 		return os;
+	}
+
+	friend TPolynom operator*(
+		double a,
+		TPolynom& p)
+	{
+		return p * a;
 	}
 };
 
@@ -143,7 +150,7 @@ void TPolynom::Print(std::ostream& os)
 
 	//Вывод для первого монома полинома
 	TMonom m = _pCurr->value;
-	float absCoeff = fabs(m.coeff);
+	double absCoeff = fabs(m.coeff);
 
 	if (m.coeff < 0) os << "- ";
 
@@ -164,7 +171,7 @@ void TPolynom::Print(std::ostream& os)
 	for (; _pCurr != pStop; _pCurr = _pCurr->pNext)
 	{
 		TMonom m = _pCurr->value;
-		float absCoeff = fabs(m.coeff);
+		double absCoeff = fabs(m.coeff);
 
 		if (m.coeff < 0) os << " - ";
 		else os << " + ";
@@ -265,8 +272,6 @@ TPolynom TPolynom::operator+(TPolynom& other)
 
 	while (!IsEnd())
 	{
-		std::cout << "result = " << result << '\n';
-
 		if (result.pCurr->value > pCurr->value)
 		{
 			result.GoNext();
@@ -299,7 +304,7 @@ TPolynom TPolynom::operator-(TPolynom& other)
 	return operator+(other.operator*(-1));
 }
 
-TPolynom TPolynom::operator*(float a)
+TPolynom TPolynom::operator*(double a)
 {
 	TPolynom result;
 
