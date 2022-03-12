@@ -183,9 +183,8 @@ void TList<T>::DelCurr()
 	if (pCurr == pStop)
 		throw TLException("Can't delete current element: it's a barrier");
 
-	if (pFirst == pCurr)
+	if (pCurr == pFirst)
 	{
-		//
 		DelFirst();
 	}
 	else
@@ -230,7 +229,6 @@ template <class T>
 void TList<T>::print(std::ostream& os)
 {
 	os << "[ ";
-	//TODO Later
 	TNode<T>* t = pFirst;
 	
 	while (t->pNext != pStop)
@@ -238,7 +236,5 @@ void TList<T>::print(std::ostream& os)
 		os << t->value << " ";
 		t = t->pNext;
 	}
-
-
 	os << "]";
 }

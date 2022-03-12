@@ -204,7 +204,7 @@ TPolinom TPolinom::operator+(TPolinom& other)
 
 	while (!IsEnd())
 	{
-		std::cout << result << '\n';
+		std::cout << "result = " << result << '\n';
 
 		if (result.pCurr->value > pCurr->value)
 		{
@@ -256,16 +256,17 @@ TPolinom TPolinom::operator*(float a)
 
 void TPolinom::print(std::ostream& os)
 {
+	TNode<TMonom>* _pCurr = pFirst;
+
 	//Нулевой полином
-	Reset();
-	if (IsEnd())
+	if (_pCurr == pStop)
 	{
 		os << "0";
 		return;
 	}
 
 	//Вывод для первого монома полинома
-	TMonom m = GetCurr();
+	TMonom m = _pCurr->value;
 	float absCoeff = fabs(m.coeff);
 
 	if (m.coeff < 0) os << "- ";
@@ -276,16 +277,17 @@ void TPolinom::print(std::ostream& os)
 		os << absCoeff;
 	}
 	//Не константный
-	else {
+	else
+	{
 		if (absCoeff != 1) os << absCoeff << "*";
 		os << m;
 	}
 
-	GoNext();
+	_pCurr = _pCurr->pNext;
 
-	for (; !IsEnd(); GoNext())
+	for (; _pCurr != pStop; _pCurr = _pCurr->pNext)
 	{
-		TMonom m = GetCurr();
+		TMonom m = _pCurr->value;
 		float absCoeff = fabs(m.coeff);
 
 		if (m.coeff < 0) os << " - ";

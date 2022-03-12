@@ -28,13 +28,6 @@ THeadList<T>::THeadList()
 template<class T>
 THeadList<T>::~THeadList()
 {
-	/*while (pFirst != pStop)
-	{
-		TNode<T>* tmp = pFirst;
-		pFirst = pFirst->pNext;
-		delete tmp;
-	}*/
-	//Вызов деструктора базового класса
 	TList::~TList();
 	delete pHead;
 }
