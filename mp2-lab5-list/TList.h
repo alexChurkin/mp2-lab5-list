@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 /* TListException - класс исключения для TList */
 
@@ -51,11 +52,14 @@ protected:
 	//Счётчик длины списка
 	int length;
 
+	virtual void Print(std::ostream& os);
+
 public:
 	TList();
 	virtual ~TList();
 
 	bool IsEmpty();
+	bool IsNotEmpty();
 
 	//Добавление элемента в начало списка
 	virtual void InsFirst(T element);
@@ -78,17 +82,32 @@ public:
 	void GoNext();
 	//Проверка на достижение итератором конца списка
 	bool IsEnd();
+	bool IsNotEnd();
 
-	virtual void print(std::ostream& os);
+	std::string ToStr();
 
 	friend std::ostream& operator<<(
 		std::ostream& os,
 		TList<T>& l)
 	{
-		l.print(os);
+		l.Print(os);
 		return os;
 	}
 };
+
+template <class T>
+void TList<T>::Print(std::ostream& os)
+{
+	os << "[ ";
+	TNode<T>* t = pFirst;
+
+	while (t != pStop)
+	{
+		os << t->value << " ";
+		t = t->pNext;
+	}
+	os << "]";
+}
 
 template <class T>
 TList<T>::TList()
@@ -113,6 +132,12 @@ template <class T>
 bool TList<T>::IsEmpty()
 {
 	return pFirst == pStop;
+}
+
+template <class T>
+bool TList<T>::IsNotEmpty()
+{
+	return pFirst != pStop;
 }
 
 template <class T>
@@ -152,7 +177,10 @@ void TList<T>::InsCurr(T element)
 	if (pCurr == pFirst)
 		InsFirst(element);
 	else if (pPrev == pLast)
+	{
 		InsLast(element);
+		pPrev = pLast; //Моя приписка
+	}
 	else
 	{
 		TNode<T>* newNode = new TNode<T>();
@@ -226,15 +254,15 @@ bool TList<T>::IsEnd()
 }
 
 template <class T>
-void TList<T>::print(std::ostream& os)
+bool TList<T>::IsNotEnd()
 {
-	os << "[ ";
-	TNode<T>* t = pFirst;
-	
-	while (t->pNext != pStop)
-	{
-		os << t->value << " ";
-		t = t->pNext;
-	}
-	os << "]";
+	return pCurr != pStop;
+}
+
+template <class T>
+std::string TList<T>::ToStr()
+{
+	std::stringstream ss;
+	Print(ss);
+	return ss.str();
 }

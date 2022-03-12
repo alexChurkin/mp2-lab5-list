@@ -103,6 +103,9 @@ struct TMonom
 
 class TPolinom : public THeadList<TMonom>
 {
+protected:
+	void Print(std::ostream& os);
+
 public:
 	TPolinom();
 
@@ -117,13 +120,11 @@ public:
 	TPolinom operator-(TPolinom& other);
 	TPolinom operator*(float a);
 
-	void print(std::ostream& os);
-
 	friend std::ostream& operator<<(
 		std::ostream& os,
 		TPolinom& p)
 	{
-		p.print(os);
+		p.Print(os);
 		return os;
 	}
 };
@@ -254,7 +255,7 @@ TPolinom TPolinom::operator*(float a)
 	return result;
 }
 
-void TPolinom::print(std::ostream& os)
+void TPolinom::Print(std::ostream& os)
 {
 	TNode<TMonom>* _pCurr = pFirst;
 
