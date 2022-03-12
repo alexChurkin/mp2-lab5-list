@@ -17,7 +17,7 @@ struct TMonom
 		x = y = z = 0;
 	}
 
-	TMonom(int _coeff, int _x, int _y, int _z)
+	TMonom(double _coeff, int _x, int _y, int _z)
 	{
 		coeff = _coeff;
 		x = _x;
@@ -99,163 +99,38 @@ struct TMonom
 	}
 };
 
-/* .................... TPolinom .................... */
+/* .................... TPolynom .................... */
 
-class TPolinom : public THeadList<TMonom>
+class TPolynom : public THeadList<TMonom>
 {
 protected:
 	void Print(std::ostream& os);
 
 public:
-	TPolinom();
+	TPolynom();
 
 	//Const тут не пишем, иначе Reset и GetNext
 	//не будут работать
-	TPolinom(TPolinom& other);
-	TPolinom& operator=(TPolinom& other);
+	TPolynom(TPolynom& other);
+	TPolynom& operator=(TPolynom& other);
 
 	void AddMonom(TMonom m);
+	void AddMonom(double coeff, int x, int y, int z);
 
-	TPolinom operator+(TPolinom& other);
-	TPolinom operator-(TPolinom& other);
-	TPolinom operator*(float a);
+	TPolynom operator+(TPolynom& other);
+	TPolynom operator-(TPolynom& other);
+	TPolynom operator*(float a);
 
 	friend std::ostream& operator<<(
 		std::ostream& os,
-		TPolinom& p)
+		TPolynom& p)
 	{
 		p.Print(os);
 		return os;
 	}
 };
 
-TPolinom::TPolinom() :THeadList::THeadList()
-{
-	TMonom m;
-	m.coeff = 0;
-	m.x = m.y = 0, m.z = -1;
-
-	pHead->value = m;
-}
-
-TPolinom::TPolinom(TPolinom& other)
-{
-	TMonom m(0, 0, -1);
-	pHead->value = m;
-	for (other.Reset(); !other.IsEnd(); other.GoNext())
-	{
-		//Из существующего полинома текущий моном добавляется в конец нового
-		InsLast(other.GetCurr());
-	}
-}
-
-TPolinom& TPolinom::operator=(TPolinom& other)
-{
-	//Удаляем все звенья (кроме pHead)
-	while (pFirst != pStop)
-	{
-		TNode<TMonom>* tmp = pFirst;
-		pFirst = pFirst->pNext;
-		delete tmp;
-	}
-	//Ставим все значения указателей обратно на pHead
-	pFirst = pLast = pPrev = pCurr = pStop = pHead;
-	length = 0;
-
-	//Заполним наш полином мономами из other
-	other.Reset();
-	while (!other.IsEnd())
-	{
-		InsLast(other.GetCurr());
-		other.GoNext();
-	}
-	return *this;
-}
-
-void TPolinom::AddMonom(TMonom m)
-{
-	Reset();
-	//Переход к следующему моному, пока степень m меньше текущего
-	while (m < pCurr->value)
-	{
-		GoNext();
-	}
-	//Обработка результатов
-	//1. Мономы равны с точностью до коэф-та
-	if (pCurr->value == m)
-	{
-		pCurr->value.coeff += m.coeff;
-		//1.1. После сложения двух мономов коэф-т 0 - удаляем текущее звено
-		if (pCurr->value.coeff == 0)
-		{
-			DelCurr();
-		}
-	}
-	//2. Мономы не равны - добавим текущий в наш список
-	else
-	{
-		InsCurr(m);
-	}
-}
-
-TPolinom TPolinom::operator+(TPolinom& other)
-{
-	TPolinom result(other);
-	Reset(); result.Reset();
-
-	while (!IsEnd())
-	{
-		std::cout << "result = " << result << '\n';
-
-		if (result.pCurr->value > pCurr->value)
-		{
-			result.GoNext();
-		}
-		else if (result.pCurr->value < pCurr->value)
-		{
-			result.InsCurr(pCurr->value);
-			GoNext();
-		}
-		else
-		{
-			result.pCurr->value.coeff += pCurr->value.coeff;
-			if (result.pCurr->value.coeff == 0)
-			{
-				result.DelCurr();
-				GoNext();
-			}
-			else
-			{
-				result.GoNext();
-				GoNext();
-			}
-		}
-	}
-	return result;
-}
-
-TPolinom TPolinom::operator-(TPolinom& other)
-{
-	return operator+(other.operator*(-1));
-}
-
-TPolinom TPolinom::operator*(float a)
-{
-	TPolinom result;
-
-	if (a == 0) return result;
-
-	for (Reset(); !IsEnd(); GoNext())
-	{
-		TMonom m = GetCurr();
-		m.coeff *= a;
-
-		result.InsLast(m);
-	}
-	return result;
-}
-
-void TPolinom::Print(std::ostream& os)
+void TPolynom::Print(std::ostream& os)
 {
 	TNode<TMonom>* _pCurr = pFirst;
 
@@ -307,11 +182,143 @@ void TPolinom::Print(std::ostream& os)
 	}
 }
 
+TPolynom::TPolynom() :THeadList::THeadList()
+{
+	TMonom m;
+	m.coeff = 0;
+	m.x = m.y = 0, m.z = -1;
+
+	pHead->value = m;
+}
+
+TPolynom::TPolynom(TPolynom& other)
+{
+	TMonom m(0, 0, -1);
+	pHead->value = m;
+	for (other.Reset(); !other.IsEnd(); other.GoNext())
+	{
+		//Из существующего полинома текущий моном добавляется в конец нового
+		InsLast(other.GetCurr());
+	}
+}
+
+TPolynom& TPolynom::operator=(TPolynom& other)
+{
+	//Удаляем все звенья (кроме pHead)
+	while (pFirst != pStop)
+	{
+		TNode<TMonom>* tmp = pFirst;
+		pFirst = pFirst->pNext;
+		delete tmp;
+	}
+	//Ставим все значения указателей обратно на pHead
+	pFirst = pLast = pPrev = pCurr = pStop = pHead;
+	length = 0;
+
+	//Заполним наш полином мономами из other
+	other.Reset();
+	while (!other.IsEnd())
+	{
+		InsLast(other.GetCurr());
+		other.GoNext();
+	}
+	return *this;
+}
+
+void TPolynom::AddMonom(TMonom m)
+{
+	if (m.coeff == 0) return;
+
+	Reset();
+	//Переход к следующему моному, пока степень m меньше текущего
+	while (m < pCurr->value)
+	{
+		GoNext();
+	}
+	//Обработка результатов
+	//1. Мономы равны с точностью до коэф-та
+	if (pCurr->value == m)
+	{
+		pCurr->value.coeff += m.coeff;
+		//1.1. После сложения двух мономов коэф-т 0 - удаляем текущее звено
+		if (pCurr->value.coeff == 0)
+		{
+			DelCurr();
+		}
+	}
+	//2. Мономы не равны - добавим текущий в наш список
+	else
+	{
+		InsCurr(m);
+	}
+}
+
+void TPolynom::AddMonom(double coeff, int x, int y, int z)
+{
+	AddMonom(TMonom(coeff, x, y, z));
+}
+
+TPolynom TPolynom::operator+(TPolynom& other)
+{
+	TPolynom result(other);
+	Reset(); result.Reset();
+
+	while (!IsEnd())
+	{
+		std::cout << "result = " << result << '\n';
+
+		if (result.pCurr->value > pCurr->value)
+		{
+			result.GoNext();
+		}
+		else if (result.pCurr->value < pCurr->value)
+		{
+			result.InsCurr(pCurr->value);
+			GoNext();
+		}
+		else
+		{
+			result.pCurr->value.coeff += pCurr->value.coeff;
+			if (result.pCurr->value.coeff == 0)
+			{
+				result.DelCurr();
+				GoNext();
+			}
+			else
+			{
+				result.GoNext();
+				GoNext();
+			}
+		}
+	}
+	return result;
+}
+
+TPolynom TPolynom::operator-(TPolynom& other)
+{
+	return operator+(other.operator*(-1));
+}
+
+TPolynom TPolynom::operator*(float a)
+{
+	TPolynom result;
+
+	if (a == 0) return result;
+
+	for (Reset(); !IsEnd(); GoNext())
+	{
+		TMonom m = GetCurr();
+		m.coeff *= a;
+
+		result.InsLast(m);
+	}
+	return result;
+}
 
 /*
-TPolinom TPolinom::badOperatorPlus(TPolinom& other)
+TPolynom TPolynom::badOperatorPlus(TPolynom& other)
 {
-	TPolinom result(other);
+	TPolynom result(other);
 
 	for (Reset(); !IsEnd(); GoNext())
 	{

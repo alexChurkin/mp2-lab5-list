@@ -26,7 +26,7 @@
     <ClInclude Include="THeadList.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TPolinom.h">
+    <ClInclude Include="TPolynom.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

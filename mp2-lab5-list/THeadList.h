@@ -35,7 +35,6 @@ THeadList<T>::~THeadList()
 template <class T>
 void THeadList<T>::InsFirst(T element)
 {
-	//Вызов метода родительского класса
 	TList::InsFirst(element);
 	pHead->pNext = pFirst;
 }
@@ -43,7 +42,6 @@ void THeadList<T>::InsFirst(T element)
 template <class T>
 void THeadList<T>::DelFirst()
 {
-	//Вызов метода родительского класса
 	TList<T>::DelFirst();
 	pHead->pNext = pFirst;
 }
