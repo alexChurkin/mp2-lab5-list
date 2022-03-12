@@ -18,6 +18,19 @@ TEST(TPolynom, CanCreateCopiedPolynom)
 	ASSERT_NO_THROW(TPolynom t2(t));
 }
 
+TEST(TPolynom, CanCorrectlyAssignPolynoms)
+{
+	TPolynom t1;
+	t1.AddMonom(2, 0, 0, 0);
+
+	TPolynom t2;
+
+	ASSERT_NO_THROW(t2 = t1);
+	std::cout << "\t     t1 = " << t1 << '\n';
+	std::cout << "\t     t2 = " << t2 << '\n';
+	EXPECT_EQ(t1.ToStr(), t2.ToStr());
+}
+
 TEST(TPolynom, CanAddMonomToPolynom)
 {
 	TPolynom t;
