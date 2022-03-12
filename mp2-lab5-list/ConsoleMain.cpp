@@ -8,9 +8,9 @@ void LaunchTListDemo()
 	cout << "Console TList demo\n";
 	cout << "==================\n";
 	TList<int> l;
-	l.InsFirst(3);
-	l.InsFirst(2);
-	l.InsFirst(1);
+	l.InsLast(1);
+	l.InsLast(2);
+	l.InsLast(3);
 
 	//1 2 3
 	cout << l << "\n";
@@ -18,82 +18,44 @@ void LaunchTListDemo()
 	l.InsLast(4);
 
 	//1 2 3 4
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
+	cout << l << '\n';
 
 	l.Reset();
 	l.InsCurr(0);
 
 	//0 1 2 3 4
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
+	cout << l << '\n';
 
 	l.InsCurr(5);
 
 	//0 1 2 3 4 5
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
+	cout << l << '\n';
 
 	l.Reset();
 	l.GoNext();
 	l.InsCurr(777);
 
 	//0 777 1 2 3 4 5
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
+	cout << l << '\n';
 
 	l.DelFirst();
 
 	//777 1 2 3 4 5
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
-
-	//Trying to delete current when it's == end
-	try
-	{
-		l.DelCurr();
-	}
-	catch (TLException e)
-	{
-		cout << e;
-	}
+	cout << l << '\n';
 
 	l.Reset();
 	l.DelCurr();
 
 	//1 2 3 4 5
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
+	cout << l << '\n';
 
 	l.DelFirst();
 
 	//1 2 3 4 5
-	for (l.Reset(); !l.IsEnd(); l.GoNext())
-	{
-		cout << l.GetCurr() << ' ';
-	}
-	cout << "\n";
+	cout << l << '\n';
 }
 
-void LaunchTPolynomCoutTest()
+void LaunchTPolynomCoutDemo()
 {
 	//P1 = 1
 	TPolynom p1;
@@ -209,34 +171,12 @@ void LaunchTPolynomDemo2()
 	cout << "P4 = " << p4 << '\n';
 
 	cout << "P4 + P3 = " << p4 + p3 << '\n';
-
-	/*TPolynom p1;
-	p1.AddMonom(TMonom(1, 0, 0, 0));
-	cout << "P1 = " << p1 << '\n';
-	
-	TPolynom p2;
-	p2.AddMonom(TMonom(-1, 0, 0, 0));
-	cout << "P2 = " << p2 << '\n';
-	
-	TPolynom s1 = p2 + p1;
-	cout << "P2 + P1 = " << s1 << "\n\n";*/
-
-
-/*
-TPolynom p7;
-p7.AddMonom(TMonom(2, 2, 0, 0));
-p7.AddMonom(TMonom(-4, 1, 0, 0));
-p7.AddMonom(TMonom(10, 0, 0, 0));
-cout << "P7 = " << p7 << '\n';
-
-TPolynom p6 = p7;
-cout << "P6 = " << p6 << '\n';*/
 }
 
 int main()
 {
 	//LaunchTListDemo();
-	//LaunchTPolynomCoutTest();
+	//LaunchTPolynomCoutDemo();
 
 	//LaunchTPolynomDemo1();
 	LaunchTPolynomDemo2();

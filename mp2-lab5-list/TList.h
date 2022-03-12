@@ -175,7 +175,10 @@ template <class T>
 void TList<T>::InsCurr(T element)
 {
 	if (pCurr == pFirst)
+	{
 		InsFirst(element);
+		pPrev = pFirst; //Моя приписка
+	}
 	else if (pPrev == pLast)
 	{
 		InsLast(element);
@@ -214,6 +217,8 @@ void TList<T>::DelCurr()
 	if (pCurr == pFirst)
 	{
 		DelFirst();
+		pPrev = pStop; // моя приписка
+		pCurr = pFirst;// моя приписка
 	}
 	else
 	{

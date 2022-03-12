@@ -108,6 +108,7 @@ TEST(TList, CanDeleteCurrentElementWhenFirst)
 	t.Reset();
 
 	ASSERT_NO_THROW(t.DelCurr());
+	t.DelCurr();
 
 	std::cout << "\t     " << t << '\n';
 }

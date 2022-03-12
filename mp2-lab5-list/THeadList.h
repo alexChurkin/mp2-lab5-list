@@ -24,7 +24,6 @@ THeadList<T>::THeadList()
 	length = 0;
 }
 
-//Также есть другой способ реализовать деструктор - через DelFirst
 template<class T>
 THeadList<T>::~THeadList()
 {
