@@ -17,13 +17,13 @@ struct TMonom
 	TMonom(int _x, int _y, int _z);
 
 	//Сравнения с точностью до постоянного множителя
-	bool operator==(const TMonom& other);
-	bool operator!=(const TMonom& other);
-	bool operator<(const TMonom& other);
-	bool operator>(const TMonom& other);
+	bool operator==(const TMonom& other) const;
+	bool operator!=(const TMonom& other) const;
+	bool operator<(const TMonom& other) const;
+	bool operator>(const TMonom& other) const;
 
 	//IsConst() <-> степени при x, y и z равны 0
-	bool IsConst();
+	bool IsConst() const;
 
 	TMonom operator*(const TMonom& other);
 
@@ -80,17 +80,17 @@ TMonom::TMonom(int _x, int _y, int _z)
 	z = _z;
 }
 
-bool TMonom::operator==(const TMonom& other)
+bool TMonom::operator==(const TMonom& other) const
 {
 	return (x == other.x && y == other.y && z == other.z);
 }
 
-bool TMonom::operator!=(const TMonom& other)
+bool TMonom::operator!=(const TMonom& other) const
 {
 	return (x != other.x || y != other.y || z != other.z);
 }
 
-bool TMonom::operator<(const TMonom& other)
+bool TMonom::operator<(const TMonom& other) const
 {
 	if (x < other.x) return true;
 	else if (x == other.x)
@@ -105,12 +105,12 @@ bool TMonom::operator<(const TMonom& other)
 	else return false;
 }
 
-bool TMonom::operator>(const TMonom& other)
+bool TMonom::operator>(const TMonom& other) const
 {
 	return !operator<(other) && !operator==(other);
 }
 
-bool TMonom::IsConst()
+bool TMonom::IsConst() const
 {
 	return x == 0 && y == 0 && z == 0;
 }
@@ -143,8 +143,8 @@ public:
 	void AddMonom(TMonom m);
 	void AddMonom(double coeff, int x, int y, int z);
 
-	bool operator==(const TPolynom& other);
-	bool operator!=(const TPolynom& other);
+	bool operator==(const TPolynom& other) const;
+	bool operator!=(const TPolynom& other) const;
 
 	TPolynom operator+(TPolynom& other);
 	TPolynom operator-(TPolynom& other);
@@ -300,12 +300,12 @@ void TPolynom::AddMonom(double coeff, int x, int y, int z)
 	AddMonom(TMonom(coeff, x, y, z));
 }
 
-bool TPolynom::operator==(const TPolynom& other)
+bool TPolynom::operator==(const TPolynom& other) const
 {
 	return ToStr() == other.ToStr();
 }
 
-bool TPolynom::operator!=(const TPolynom& other)
+bool TPolynom::operator!=(const TPolynom& other) const
 {
 	return ToStr() != other.ToStr();
 }

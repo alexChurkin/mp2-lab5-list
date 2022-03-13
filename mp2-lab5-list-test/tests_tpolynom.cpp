@@ -27,7 +27,7 @@ TEST(TPolynom, CanAssignPolynoms)
 
 	ASSERT_NO_THROW(t2 = t1);
 	std::cout << "\t     t1 = " << t1 << '\n';
-	std::cout << "\t     t2 = " << t2 << '\n';
+	std::cout << "\t     t2 = t1 = " << t2 << '\n';
 	EXPECT_EQ(t1.ToStr(), t2.ToStr());
 }
 
@@ -64,7 +64,11 @@ TEST(TPolynom, CanAddPolynomToPolynom_1)
 	TPolynom sum;	
 	ASSERT_NO_THROW(sum = t1 + t2);
 
-	std::cout << "\t     sum = " << sum << '\n';
+	std::cout << "\t     t1 + t2 = " << sum << '\n';
+
+	TPolynom correct;
+
+	EXPECT_EQ(sum, correct);
 }
 
 TEST(TPolynom, CanAddPolynomToPolynom_2)
@@ -82,7 +86,12 @@ TEST(TPolynom, CanAddPolynomToPolynom_2)
 	TPolynom sum;
 	ASSERT_NO_THROW(sum = t1 + t2);
 
-	std::cout << "\t     sum = " << sum << '\n';
+	std::cout << "\t     t1 + t2 = " << sum << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(1, 0, 0, 0);
+
+	EXPECT_EQ(sum, correct);
 }
 
 TEST(TPolynom, CanAddPolynomToPolynom_3)
@@ -100,7 +109,12 @@ TEST(TPolynom, CanAddPolynomToPolynom_3)
 	TPolynom sum;
 	ASSERT_NO_THROW(sum = t1 + t2);
 
-	std::cout << "\t     sum = " << sum << '\n';
+	std::cout << "\t     t1 + t2 = " << sum << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(1, 1, 0, 0);
+
+	EXPECT_EQ(sum, correct);
 }
 
 TEST(TPolynom, CanAddPolynomToPolynom_4)
@@ -121,22 +135,25 @@ TEST(TPolynom, CanAddPolynomToPolynom_4)
 	TPolynom sum;
 	ASSERT_NO_THROW(sum = t1 + t2);
 
-	std::cout << "\t     sum = " << sum << '\n';
+	std::cout << "\t     t1 + t2 = " << sum << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(6, 1, 1, 1);
+	correct.AddMonom(2, 0, 1, 1);
+
+	EXPECT_EQ(sum, correct);
 }
 
 TEST(TPolynom, CanAddPolynomToPolynom_5)
 {
 	TPolynom t1;
 	t1.AddMonom(1, 2, 2, 2);
-	t1.AddMonom(-4, 2, 2, 1);
-	t1.AddMonom(5, 2, 1, 1);
-	t1.AddMonom(-1, 1, 1, 0);
-	t1.AddMonom(1, 0, 0, 1);
+	t1.AddMonom(3, 0, 0, 2);
 
 	TPolynom t2;
-	t2.AddMonom(1, 0, 1, 1);
-	t2.AddMonom(-2, 1, 0, 1);
-	t2.AddMonom(3, 1, 1, 1);
+	t2.AddMonom(1, 2, 2, 1);
+	t2.AddMonom(-2, 0, 0, 2);
+	t2.AddMonom(1, 0, 0, 1);
 
 	std::cout << "\t     t1 = " << t1 << '\n';
 	std::cout << "\t     t2 = " << t2 << '\n';
@@ -144,7 +161,15 @@ TEST(TPolynom, CanAddPolynomToPolynom_5)
 	TPolynom sum;
 	ASSERT_NO_THROW(sum = t1 + t2);
 
-	std::cout << "\t     sum = " << sum << '\n';
+	std::cout << "\t     t1 + t2 = " << sum << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(1, 2, 2, 2);
+	correct.AddMonom(1, 2, 2, 1);
+	correct.AddMonom(1, 0, 0, 2);
+	correct.AddMonom(1, 0, 0, 1);
+
+	EXPECT_EQ(sum, correct);
 }
 
 TEST(TPolynom, CanSubstractPolynomFromPolynom)
@@ -162,10 +187,15 @@ TEST(TPolynom, CanSubstractPolynomFromPolynom)
 	std::cout << "\t     t1 = " << t1 << '\n';
 	std::cout << "\t     t2 = " << t2 << '\n';
 
-	TPolynom result;
-	ASSERT_NO_THROW(result = t1 - t2);
+	TPolynom difference;
+	ASSERT_NO_THROW(difference = t1 - t2);
 
-	std::cout << "\t     result = " << result << '\n';
+	std::cout << "\t     t1 - t2 = " << difference << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(4, 1, 0, 1);
+
+	EXPECT_EQ(difference, correct);
 }
 
 TEST(TPolynom, CanMultiplyPolynomByZeroDouble)
@@ -175,11 +205,14 @@ TEST(TPolynom, CanMultiplyPolynomByZeroDouble)
 	t.AddMonom(2, 1, 0, 1);
 	t.AddMonom(3, 1, 1, 1);
 
+	std::cout << "\t     t = " << t << '\n';
+
 	TPolynom result;
 	ASSERT_NO_THROW(result = 0 * t);
 
-	std::cout << "\t     t = " << t << '\n';
-	std::cout << "\t     result = t * 0 = " << result << '\n';
+	std::cout << "\t     0 * t = " << result << '\n';
+
+	EXPECT_EQ(result, TPolynom());
 }
 
 TEST(TPolynom, CanMultiplyPolynomByDouble)
@@ -193,22 +226,36 @@ TEST(TPolynom, CanMultiplyPolynomByDouble)
 	ASSERT_NO_THROW(result = -10 * t);
 
 	std::cout << "\t     t = " << t << '\n';
-	std::cout << "\t     result = (-10) * t = " << result << '\n';
+	std::cout << "\t     (-10) * t = " << result << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(-10, 0, 1, 1);
+	correct.AddMonom(-20, 1, 0, 1);
+	correct.AddMonom(-30, 1, 1, 1);
+
+	EXPECT_EQ(result, correct);
 }
 
 TEST(TPolynom, CanMultiplyPolynomByMonom)
 {
 	TPolynom t;
 	t.AddMonom(1, 0, 1, 0);
+	t.AddMonom(1, 1, 0, 0);
 
-	TPolynom result;
-
-	TMonom m(1, 1, 0, 1);
-
-	ASSERT_NO_THROW(result = t * m);
+	TMonom m(2, 1, 0, 1);
 
 	std::cout << "\t     t = " << t << '\n';
-	std::cout << "\t     result = " << result << '\n';
+
+	TPolynom result;
+	ASSERT_NO_THROW(result = t * m);
+
+	std::cout << "\t     t * 2*xz = " << result << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(2, 2, 0, 1);
+	correct.AddMonom(2, 1, 1, 1);
+
+	EXPECT_EQ(result, correct);
 }
 
 TEST(TPolynom, CanMultiplyPolynomByPolynom)
@@ -220,13 +267,17 @@ TEST(TPolynom, CanMultiplyPolynomByPolynom)
 	t2.AddMonom(2, 0, 1, 1);
 	t2.AddMonom(0.5, 0, 0, 1);
 
-	TPolynom result;
-
-	TMonom m(1, 1, 0, 1);
-
-	ASSERT_NO_THROW(result = t1 * t2);
-
 	std::cout << "\t     t1 = " << t1 << '\n';
 	std::cout << "\t     t2 = " << t2 << '\n';
-	std::cout << "\t     result = " << result << '\n';
+
+	TPolynom result;
+	ASSERT_NO_THROW(result = t1 * t2);
+
+	std::cout << "\t     t1 * t2 = " << result << '\n';
+
+	TPolynom correct;
+	correct.AddMonom(2, 1, 1, 1);
+	correct.AddMonom(0.5, 1, 0, 1);
+
+	EXPECT_EQ(result, correct);
 }
