@@ -130,18 +130,21 @@ TMonom TMonom::operator*(const TMonom& other)
 class TPolynom : public THeadList<TMonom>
 {
 protected:
-	void Print(std::ostream& os);
+	void Print(std::ostream& os) const;
 
 public:
 	TPolynom();
 
-	//const тут не пишем, иначе Reset и GetNext
+	//const TPolynom& не пишем, иначе Reset и GetNext
 	//не будут работать
 	TPolynom(TPolynom& other);
 	TPolynom& operator=(TPolynom& other);
 
 	void AddMonom(TMonom m);
 	void AddMonom(double coeff, int x, int y, int z);
+
+	bool operator==(const TPolynom& other);
+	bool operator!=(const TPolynom& other);
 
 	TPolynom operator+(TPolynom& other);
 	TPolynom operator-(TPolynom& other);
@@ -161,7 +164,7 @@ public:
 		TMonom& m,
 		TPolynom& p)
 	{
-		return m * p;
+		return p * m;
 	}
 
 	friend TPolynom operator*(
@@ -172,7 +175,7 @@ public:
 	}
 };
 
-void TPolynom::Print(std::ostream& os)
+void TPolynom::Print(std::ostream& os) const
 {
 	TNode<TMonom>* _pCurr = pFirst;
 
@@ -297,6 +300,16 @@ void TPolynom::AddMonom(double coeff, int x, int y, int z)
 	AddMonom(TMonom(coeff, x, y, z));
 }
 
+bool TPolynom::operator==(const TPolynom& other)
+{
+	return ToStr() == other.ToStr();
+}
+
+bool TPolynom::operator!=(const TPolynom& other)
+{
+	return ToStr() != other.ToStr();
+}
+
 TPolynom TPolynom::operator+(TPolynom& other)
 {
 	TPolynom result(other);
@@ -340,17 +353,11 @@ TPolynom TPolynom::operator*(TPolynom& other)
 {
 	TPolynom result;
 
-	if (other.length == 0) return result;
-
 	for (Reset(); !IsEnd(); GoNext())
 	{
-		TMonom m1 = GetCurr();
-		
-		for (other.Reset(); !other.IsEnd(); other.GoNext())
-		{
-			TMonom m2 = other.GetCurr();
-			result.AddMonom(m1 * m2);
-		}
+		TMonom m = GetCurr();
+		TPolynom temp = m * other;
+		result = result + temp;
 	}
 
 	return result;

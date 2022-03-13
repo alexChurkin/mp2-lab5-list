@@ -52,7 +52,7 @@ protected:
 	//—чЄтчик длины списка
 	int length;
 
-	virtual void Print(std::ostream& os);
+	virtual void Print(std::ostream& os) const;
 
 public:
 	TList();
@@ -84,7 +84,7 @@ public:
 	bool IsEnd();
 	bool IsNotEnd();
 
-	std::string ToStr();
+	std::string ToStr() const;
 
 	friend std::ostream& operator<<(
 		std::ostream& os,
@@ -96,7 +96,7 @@ public:
 };
 
 template <class T>
-void TList<T>::Print(std::ostream& os)
+void TList<T>::Print(std::ostream& os) const
 {
 	os << "[ ";
 	TNode<T>* t = pFirst;
@@ -265,7 +265,7 @@ bool TList<T>::IsNotEnd()
 }
 
 template <class T>
-std::string TList<T>::ToStr()
+std::string TList<T>::ToStr() const
 {
 	std::stringstream ss;
 	Print(ss);

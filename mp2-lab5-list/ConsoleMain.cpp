@@ -140,7 +140,7 @@ int main()
 
 	TPolynom p1, p2;
 
-	char ch;
+	/*char ch;
 	cin >> ch;
 
 	cout << "p1 = ";
@@ -160,7 +160,22 @@ int main()
 	case '*':
 		cout << "result = " << p1 * p2 << '\n';
 		break;
-	}
+	}*/
+
+	TPolynom t1;
+	t1.AddMonom(1, 1, 0, 0);
+
+	TPolynom t2;
+	t2.AddMonom(2, 0, 1, 1);
+	t2.AddMonom(0.5, 0, 0, 1);
+
+	TPolynom result;
+
+	TMonom m(1, 1, 0, 1);
+
+	result = t1 * t2;
+
+	cout << result << '\n';
 
 	return 0;
 }
