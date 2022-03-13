@@ -136,6 +136,31 @@ int main()
 	LaunchTPolynomPrintDemo();
 	cout << '\n';
 	LaunchTPolynomDemo();
+	cout << '\n';
+
+	TPolynom p1, p2;
+
+	char ch;
+	cin >> ch;
+
+	cout << "p1 = ";
+	//cin >> p1;
+
+	cout << "p2 = ";
+	//cin >> p2;
+
+	switch (ch)
+	{
+	case '+':
+		cout << "result = " << p1 + p2 << '\n';
+		break;
+	case '-':
+		cout << "result = " << p1 - p2 << '\n';
+		break;
+	case '*':
+		cout << "result = " << p1 * p2 << '\n';
+		break;
+	}
 
 	return 0;
 }

@@ -8,66 +8,24 @@ struct TMonom
 {
 	//Коэффициент
 	double coeff;
+
 	//Степени при x, y и z
 	int x, y, z;
 
-	TMonom()
-	{
-		coeff = 0;
-		x = y = z = 0;
-	}
+	TMonom();
+	TMonom(double _coeff, int _x, int _y, int _z);
+	TMonom(int _x, int _y, int _z);
 
-	TMonom(double _coeff, int _x, int _y, int _z)
-	{
-		coeff = _coeff;
-		x = _x;
-		y = _y;
-		z = _z;
-	}
+	//Сравнения с точностью до постоянного множителя
+	bool operator==(const TMonom& other);
+	bool operator!=(const TMonom& other);
+	bool operator<(const TMonom& other);
+	bool operator>(const TMonom& other);
 
-	TMonom(int _x, int _y, int _z)
-	{
-		coeff = 0;
-		x = _x;
-		y = _y;
-		z = _z;
-	}
+	//IsConst() <-> степени при x, y и z равны 0
+	bool IsConst();
 
-	//Равенство с точностью до постоянного множителя
-	bool operator==(const TMonom& other)
-	{
-		return (x == other.x && y == other.y && z == other.z);
-	}
-
-	bool operator!=(const TMonom& other)
-	{
-		return (x != other.x || y != other.y || z != other.z);
-	}
-
-	bool operator<(const TMonom& other)
-	{
-		if (x < other.x) return true;
-		else if (x == other.x)
-		{
-			if (y < other.y) return true;
-			else if (y == other.y)
-			{
-				return z < other.z;
-			}
-			else return false;
-		}
-		else return false;
-	}
-
-	bool operator>(const TMonom& other)
-	{
-		return !operator<(other) && !operator==(other);
-	}
-
-	bool IsConst()
-	{
-		return x == 0 && y == 0 && z == 0;
-	}
+	TMonom operator*(const TMonom& other);
 
 	friend std::istream& operator>>(std::istream& is, TMonom& m)
 	{
@@ -99,6 +57,74 @@ struct TMonom
 	}
 };
 
+TMonom::TMonom()
+{
+	coeff = 0;
+	x = y = z = 0;
+}
+
+TMonom::TMonom(
+	double _coeff, int _x, int _y, int _z)
+{
+	coeff = _coeff;
+	x = _x;
+	y = _y;
+	z = _z;
+}
+
+TMonom::TMonom(int _x, int _y, int _z)
+{
+	coeff = 0;
+	x = _x;
+	y = _y;
+	z = _z;
+}
+
+bool TMonom::operator==(const TMonom& other)
+{
+	return (x == other.x && y == other.y && z == other.z);
+}
+
+bool TMonom::operator!=(const TMonom& other)
+{
+	return (x != other.x || y != other.y || z != other.z);
+}
+
+bool TMonom::operator<(const TMonom& other)
+{
+	if (x < other.x) return true;
+	else if (x == other.x)
+	{
+		if (y < other.y) return true;
+		else if (y == other.y)
+		{
+			return z < other.z;
+		}
+		else return false;
+	}
+	else return false;
+}
+
+bool TMonom::operator>(const TMonom& other)
+{
+	return !operator<(other) && !operator==(other);
+}
+
+bool TMonom::IsConst()
+{
+	return x == 0 && y == 0 && z == 0;
+}
+
+TMonom TMonom::operator*(const TMonom& other)
+{
+	TMonom result;
+	result.coeff = coeff * other.coeff;
+	result.x = x + other.x;
+	result.y = y + other.y;
+	result.z = z + other.z;
+	return result;
+}
+
 /* .................... TPolynom .................... */
 
 class TPolynom : public THeadList<TMonom>
@@ -109,7 +135,7 @@ protected:
 public:
 	TPolynom();
 
-	//Const тут не пишем, иначе Reset и GetNext
+	//const тут не пишем, иначе Reset и GetNext
 	//не будут работать
 	TPolynom(TPolynom& other);
 	TPolynom& operator=(TPolynom& other);
@@ -119,6 +145,8 @@ public:
 
 	TPolynom operator+(TPolynom& other);
 	TPolynom operator-(TPolynom& other);
+	TPolynom operator*(TPolynom& other);
+	TPolynom operator*(TMonom& monom);
 	TPolynom operator*(double a);
 
 	friend std::ostream& operator<<(
@@ -127,6 +155,13 @@ public:
 	{
 		p.Print(os);
 		return os;
+	}
+
+	friend TPolynom operator*(
+		TMonom& m,
+		TPolynom& p)
+	{
+		return m * p;
 	}
 
 	friend TPolynom operator*(
@@ -203,10 +238,7 @@ TPolynom::TPolynom(TPolynom& other)
 	TMonom m(0, 0, -1);
 	pHead->value = m;
 	for (other.Reset(); !other.IsEnd(); other.GoNext())
-	{
-		//Из существующего полинома текущий моном добавляется в конец нового
 		InsLast(other.GetCurr());
-	}
 }
 
 TPolynom& TPolynom::operator=(TPolynom& other)
@@ -222,7 +254,7 @@ TPolynom& TPolynom::operator=(TPolynom& other)
 	pFirst = pLast = pPrev = pCurr = pStop = pHead;
 	length = 0;
 
-	//Заполним наш полином мономами из other
+	//Заполним полином мономами из other
 	other.Reset();
 	while (!other.IsEnd())
 	{
@@ -304,6 +336,41 @@ TPolynom TPolynom::operator-(TPolynom& other)
 	return operator+(other.operator*(-1));
 }
 
+TPolynom TPolynom::operator*(TPolynom& other)
+{
+	TPolynom result;
+
+	if (other.length == 0) return result;
+
+	for (Reset(); !IsEnd(); GoNext())
+	{
+		TMonom m1 = GetCurr();
+		
+		for (other.Reset(); !other.IsEnd(); other.GoNext())
+		{
+			TMonom m2 = other.GetCurr();
+			result.AddMonom(m1 * m2);
+		}
+	}
+
+	return result;
+}
+
+TPolynom TPolynom::operator*(TMonom& monom)
+{
+	TPolynom result;
+
+	if (monom.coeff == 0) return result;
+
+	for (Reset(); !IsEnd(); GoNext())
+	{
+		TMonom m = GetCurr();
+		result.InsLast(m * monom);
+	}
+
+	return result;
+}
+
 TPolynom TPolynom::operator*(double a)
 {
 	TPolynom result;
@@ -321,7 +388,8 @@ TPolynom TPolynom::operator*(double a)
 }
 
 /*
-TPolynom TPolynom::badOperatorPlus(TPolynom& other)
+//Менее эффективная версия operator+
+TPolynom TPolynom::operator+(TPolynom& other)
 {
 	TPolynom result(other);
 
