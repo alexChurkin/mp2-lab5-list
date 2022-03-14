@@ -126,6 +126,7 @@
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
@@ -136,6 +137,12 @@
     <ProjectReference Include="..\mp2-lab5-list\mp2-lab5-list.vcxproj">
       <Project>{aad1459e-8c74-4c65-9195-f87a3d34ee2b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="mp2-lab5-list-form.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

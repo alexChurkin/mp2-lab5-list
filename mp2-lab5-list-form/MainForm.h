@@ -59,6 +59,7 @@ namespace mp2lab5listform {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -74,9 +75,10 @@ namespace mp2lab5listform {
 			// 
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox1->Location = System::Drawing::Point(76, 33);
+			this->textBox1->Location = System::Drawing::Point(68, 26);
+			this->textBox1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(671, 39);
+			this->textBox1->Size = System::Drawing::Size(597, 33);
 			this->textBox1->TabIndex = 0;
 			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MainForm::textBox1_KeyPress);
 			// 
@@ -84,9 +86,10 @@ namespace mp2lab5listform {
 			// 
 			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox2->Location = System::Drawing::Point(76, 95);
+			this->textBox2->Location = System::Drawing::Point(68, 76);
+			this->textBox2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(671, 39);
+			this->textBox2->Size = System::Drawing::Size(597, 33);
 			this->textBox2->TabIndex = 1;
 			this->textBox2->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MainForm::textBox2_KeyPress);
 			// 
@@ -95,9 +98,9 @@ namespace mp2lab5listform {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label1->Location = System::Drawing::Point(14, 36);
+			this->label1->Location = System::Drawing::Point(12, 29);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(56, 32);
+			this->label1->Size = System::Drawing::Size(49, 29);
 			this->label1->TabIndex = 2;
 			this->label1->Text = L"P =";
 			// 
@@ -106,9 +109,9 @@ namespace mp2lab5listform {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label2->Location = System::Drawing::Point(11, 98);
+			this->label2->Location = System::Drawing::Point(10, 78);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(59, 32);
+			this->label2->Size = System::Drawing::Size(52, 29);
 			this->label2->TabIndex = 3;
 			this->label2->Text = L"Q =";
 			// 
@@ -116,9 +119,10 @@ namespace mp2lab5listform {
 			// 
 			this->textBox3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox3->Location = System::Drawing::Point(17, 291);
+			this->textBox3->Location = System::Drawing::Point(15, 233);
+			this->textBox3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(730, 39);
+			this->textBox3->Size = System::Drawing::Size(649, 33);
 			this->textBox3->TabIndex = 4;
 			// 
 			// label3
@@ -126,9 +130,9 @@ namespace mp2lab5listform {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label3->Location = System::Drawing::Point(11, 252);
+			this->label3->Location = System::Drawing::Point(10, 202);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(158, 32);
+			this->label3->Size = System::Drawing::Size(134, 29);
 			this->label3->TabIndex = 5;
 			this->label3->Text = L"Результат:";
 			// 
@@ -136,9 +140,10 @@ namespace mp2lab5listform {
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button1->Location = System::Drawing::Point(17, 162);
+			this->button1->Location = System::Drawing::Point(15, 130);
+			this->button1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(228, 67);
+			this->button1->Size = System::Drawing::Size(203, 54);
 			this->button1->TabIndex = 6;
 			this->button1->Text = L"+";
 			this->button1->UseVisualStyleBackColor = true;
@@ -148,9 +153,10 @@ namespace mp2lab5listform {
 			// 
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button2->Location = System::Drawing::Point(267, 162);
+			this->button2->Location = System::Drawing::Point(237, 130);
+			this->button2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(228, 67);
+			this->button2->Size = System::Drawing::Size(203, 54);
 			this->button2->TabIndex = 7;
 			this->button2->Text = L"-";
 			this->button2->UseVisualStyleBackColor = true;
@@ -160,9 +166,10 @@ namespace mp2lab5listform {
 			// 
 			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button3->Location = System::Drawing::Point(519, 162);
+			this->button3->Location = System::Drawing::Point(461, 130);
+			this->button3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(228, 67);
+			this->button3->Size = System::Drawing::Size(203, 54);
 			this->button3->TabIndex = 8;
 			this->button3->Text = L"*";
 			this->button3->UseVisualStyleBackColor = true;
@@ -170,9 +177,9 @@ namespace mp2lab5listform {
 			// 
 			// MainForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(766, 365);
+			this->ClientSize = System::Drawing::Size(681, 292);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
@@ -183,11 +190,12 @@ namespace mp2lab5listform {
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->textBox1);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->MaximizeBox = false;
 			this->Name = L"MainForm";
-			this->ShowIcon = false;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"Полиномы";
+			this->Text = L"Калькулятор полиномов";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
