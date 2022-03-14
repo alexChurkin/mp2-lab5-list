@@ -272,7 +272,7 @@ TPolynom::TPolynom(
 			//Это конец строки (степень 1)
 			if (i + 1 == polyStr.size())
 			{
-				tm.x = 1;
+				tm.x += 1;
 			}
 			//Моном имеет явную степень (не 1)
 			else if (isdigit(polyStr[i + 1]))
@@ -282,13 +282,13 @@ TPolynom::TPolynom(
 				ostringstream ss;
 				ss << digit;
 
-				tm.x = digit;
+				tm.x += digit;
 				i += idx;
 			}
 			//Моном имеет степень 1
 			else
 			{
-				tm.x = 1;
+				tm.x += 1;
 			}
 		}
 		else if (polyStr[i] == 'y')
@@ -296,7 +296,7 @@ TPolynom::TPolynom(
 			//Это конец строки (степень 1)
 			if (i + 1 == polyStr.size())
 			{
-				tm.y = 1;
+				tm.y += 1;
 			}
 			//Моном имеет явную степень (не 1)
 			else if (isdigit(polyStr[i + 1]))
@@ -306,13 +306,13 @@ TPolynom::TPolynom(
 				ostringstream ss;
 				ss << digit;
 
-				tm.y = digit;
+				tm.y += digit;
 				i += idx;
 			}
 			//Моном имеет степень 1
 			else
 			{
-				tm.y = 1;
+				tm.y += 1;
 			}
 		}
 		else if (polyStr[i] == 'z')
@@ -320,7 +320,7 @@ TPolynom::TPolynom(
 			//Это конец строки (степень 1)
 			if (i + 1 == polyStr.size())
 			{
-				tm.z = 1;
+				tm.z += 1;
 			}
 			//Моном имеет явную степень (не 1)
 			else if (isdigit(polyStr[i + 1]))
@@ -330,26 +330,26 @@ TPolynom::TPolynom(
 				ostringstream ss;
 				ss << digit;
 
-				tm.z = digit;
+				tm.z += digit;
 				i += idx;
 			}
 			//Моном имеет степень 1
 			else
 			{
-				tm.z = 1;
+				tm.z += 1;
 			}
 		}
 		//Переход к считыванию следующего монома
 		else if (polyStr[i] == '+' || polyStr[i] == '-')
 		{
-			InsLast(tm);
+			AddMonom(tm);
 			tm.coeff = 1;
 			tm.x = tm.y = tm.z = 0;
 			lastsgn = polyStr[i];
 		}
 	}
 	//Дозапись последнего монома
-	InsLast(tm);
+	AddMonom(tm);
 }
 
 TPolynom& TPolynom::operator=(TPolynom& other)
