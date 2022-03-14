@@ -283,7 +283,7 @@ TPolynom::TPolynom(
 				ss << digit;
 
 				tm.x = digit;
-				i += idx - 1;
+				i += idx;
 			}
 			//Моном имеет степень 1
 			else
@@ -307,7 +307,7 @@ TPolynom::TPolynom(
 				ss << digit;
 
 				tm.y = digit;
-				i += idx - 1;
+				i += idx;
 			}
 			//Моном имеет степень 1
 			else
@@ -331,7 +331,7 @@ TPolynom::TPolynom(
 				ss << digit;
 
 				tm.z = digit;
-				i += idx - 1;
+				i += idx;
 			}
 			//Моном имеет степень 1
 			else
@@ -340,7 +340,7 @@ TPolynom::TPolynom(
 			}
 		}
 		//Переход к считыванию следующего монома
-		if (polyStr[i] == '+' || polyStr[i] == '-')
+		else if (polyStr[i] == '+' || polyStr[i] == '-')
 		{
 			InsLast(tm);
 			tm.coeff = 1;

@@ -166,12 +166,14 @@ int main()
 		break;
 	}*/
 
+	while (true)
+	{
+		string str;
+		getline(cin, str);
+		TPolynom p(str);
 
-	string str;
-	getline(cin, str);
-	TPolynom p(str);
-
-	cout << p << '\n';
+		cout << p << '\n';
+	}
 
 	return 0;
 }
