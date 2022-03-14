@@ -264,8 +264,6 @@ TPolynom::TPolynom(
 			ss << digit;
 
 			tm.coeff = digit;
-			//if (lastsgn == '-') tm.coeff *= (-1);
-
 			i += idx - 1;
 		}
 		else if (polyStr[i] == 'x' || polyStr[i] == 'X')

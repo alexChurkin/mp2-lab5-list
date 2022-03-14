@@ -6,6 +6,17 @@ TEST(TPolynom, CanCreateNewPolynom)
 	ASSERT_NO_THROW(TPolynom t);
 }
 
+TEST(TPolynom, CanCreatePolynomFromString)
+{
+	TPolynom t("2xyz+0.5xz");
+
+	TPolynom correct;
+	correct.AddMonom(2, 1, 1, 1);
+	correct.AddMonom(0.5, 1, 0, 1);
+
+	EXPECT_EQ(t, correct);
+}
+
 TEST(TPolynom, NewCreatedPolynomIsZero)
 {
 	TPolynom t;
