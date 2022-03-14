@@ -1,6 +1,8 @@
 #pragma once
 #include<cmath>
+#include<sstream>
 #include "THeadList.h"
+using namespace std;
 
 /* ..................... TMonom ..................... */
 
@@ -27,12 +29,7 @@ struct TMonom
 
 	TMonom operator*(const TMonom& other);
 
-	friend std::istream& operator>>(std::istream& is, TMonom& m)
-	{
-		is >> m.coeff >> m.x >> m.y >> m.z;
-		return is;
-	}
-
+	//Выводит текущий моном без коэффициента и знака
 	friend std::ostream& operator<<(std::ostream& os, TMonom& monom)
 	{
 		if (monom.x != 0)
@@ -138,6 +135,7 @@ public:
 	//const TPolynom& не пишем, иначе Reset и GetNext
 	//не будут работать
 	TPolynom(TPolynom& other);
+	TPolynom(const std::string& polyStr);
 	TPolynom& operator=(TPolynom& other);
 
 	void AddMonom(TMonom m);
@@ -242,6 +240,116 @@ TPolynom::TPolynom(TPolynom& other)
 	pHead->value = m;
 	for (other.Reset(); !other.IsEnd(); other.GoNext())
 		InsLast(other.GetCurr());
+}
+
+//Считаем, что строка уже trim слева и справа
+TPolynom::TPolynom(
+	const std::string& polyStr): TPolynom()
+{
+	//Последний встреченный знак коэффициента
+	char lastsgn = '+';
+
+	//Временный моном для записи данных
+	TMonom tm(1, 0, 0, 0);
+
+	int i = 0;
+	for (; i < polyStr.size(); i++)
+	{
+		if (isdigit(polyStr[i]))
+		{
+			size_t idx;
+			double digit = stod(&polyStr[i], &idx);
+			ostringstream ss;
+			ss << digit;
+
+			tm.coeff = digit;
+			if (lastsgn == '-') tm.coeff *= (-1);
+
+			i += idx - 1;
+		}
+		else if (polyStr[i] == 'x')
+		{
+			//Это конец строки (степень 1)
+			if (i + 1 == polyStr.size())
+			{
+				tm.x = 1;
+			}
+			//Моном имеет явную степень (не 1)
+			else if (isdigit(polyStr[i + 1]))
+			{
+				size_t idx;
+				double digit = stod(&polyStr[i + 1], &idx);
+				ostringstream ss;
+				ss << digit;
+
+				tm.x = digit;
+				i += idx - 1;
+			}
+			//Моном имеет степень 1
+			else
+			{
+				tm.x = 1;
+			}
+		}
+		else if (polyStr[i] == 'y')
+		{
+			//Это конец строки (степень 1)
+			if (i + 1 == polyStr.size())
+			{
+				tm.y = 1;
+			}
+			//Моном имеет явную степень (не 1)
+			else if (isdigit(polyStr[i + 1]))
+			{
+				size_t idx;
+				double digit = stod(&polyStr[i + 1], &idx);
+				ostringstream ss;
+				ss << digit;
+
+				tm.y = digit;
+				i += idx - 1;
+			}
+			//Моном имеет степень 1
+			else
+			{
+				tm.y = 1;
+			}
+		}
+		else if (polyStr[i] == 'z')
+		{
+			//Это конец строки (степень 1)
+			if (i + 1 == polyStr.size())
+			{
+				tm.z = 1;
+			}
+			//Моном имеет явную степень (не 1)
+			else if (isdigit(polyStr[i + 1]))
+			{
+				size_t idx;
+				double digit = stod(&polyStr[i + 1], &idx);
+				ostringstream ss;
+				ss << digit;
+
+				tm.z = digit;
+				i += idx - 1;
+			}
+			//Моном имеет степень 1
+			else
+			{
+				tm.z = 1;
+			}
+		}
+		//Переход к считыванию следующего монома
+		if (polyStr[i] == '+' || polyStr[i] == '-')
+		{
+			InsLast(tm);
+			tm.coeff = 1;
+			tm.x = tm.y = tm.z = 0;
+			lastsgn = polyStr[i];
+		}
+	}
+	//Дозапись последнего монома
+	InsLast(tm);
 }
 
 TPolynom& TPolynom::operator=(TPolynom& other)

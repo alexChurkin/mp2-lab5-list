@@ -131,7 +131,7 @@ void LaunchTPolynomDemo()
 
 int main()
 {
-	LaunchTListDemo();
+	/*LaunchTListDemo();
 	cout << '\n';
 	LaunchTPolynomPrintDemo();
 	cout << '\n';
@@ -140,14 +140,18 @@ int main()
 
 	TPolynom p1, p2;
 
-	/*char ch;
+	char ch;
 	cin >> ch;
 
+	std::string str;
+
 	cout << "p1 = ";
-	//cin >> p1;
+	getline(cin, str);
+	TPolynom p1(str);
 
 	cout << "p2 = ";
-	//cin >> p2;
+	getline(cin, str);
+	TPolynom p2(str);
 
 	switch (ch)
 	{
@@ -162,20 +166,12 @@ int main()
 		break;
 	}*/
 
-	TPolynom t1;
-	t1.AddMonom(1, 1, 0, 0);
 
-	TPolynom t2;
-	t2.AddMonom(2, 0, 1, 1);
-	t2.AddMonom(0.5, 0, 0, 1);
+	string str;
+	getline(cin, str);
+	TPolynom p(str);
 
-	TPolynom result;
-
-	TMonom m(1, 1, 0, 1);
-
-	result = t1 * t2;
-
-	cout << result << '\n';
+	cout << p << '\n';
 
 	return 0;
 }
