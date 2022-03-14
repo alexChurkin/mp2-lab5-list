@@ -6,7 +6,7 @@ using namespace std;
 void LaunchTListDemo()
 {
 	cout << "TList demo\n";
-	cout << "==================\n";
+	cout << "===================\n";
 	TList<int> l;
 	l.InsFirst(3);
 	l.InsFirst(2);
@@ -50,7 +50,7 @@ void LaunchTListDemo()
 void LaunchTPolynomPrintDemo()
 {
 	cout << "TPolynom print demo\n";
-	cout << "==================\n";
+	cout << "===================\n";
 	//P1 = 1
 	TPolynom p1;
 	p1.AddMonom(TMonom(1, 0, 0, 0));
@@ -114,7 +114,7 @@ void LaunchTPolynomPrintDemo()
 void LaunchTPolynomDemo()
 {
 	cout << "TPolynom sum demo\n";
-	cout << "==================\n";
+	cout << "===================\n";
 
 	TPolynom p3;
 	p3.AddMonom(TMonom(1, 1, 0, 0));
@@ -131,48 +131,45 @@ void LaunchTPolynomDemo()
 
 int main()
 {
-	/*LaunchTListDemo();
+	LaunchTListDemo();
 	cout << '\n';
 	LaunchTPolynomPrintDemo();
 	cout << '\n';
 	LaunchTPolynomDemo();
 	cout << '\n';
 
-	TPolynom p1, p2;
-
-	char ch;
-	cin >> ch;
-
-	std::string str;
-
-	cout << "p1 = ";
-	getline(cin, str);
-	TPolynom p1(str);
-
-	cout << "p2 = ";
-	getline(cin, str);
-	TPolynom p2(str);
-
-	switch (ch)
-	{
-	case '+':
-		cout << "result = " << p1 + p2 << '\n';
-		break;
-	case '-':
-		cout << "result = " << p1 - p2 << '\n';
-		break;
-	case '*':
-		cout << "result = " << p1 * p2 << '\n';
-		break;
-	}*/
-
+	cout << "Polynomial Calculator\n";
+	cout << "====================\n";
 	while (true)
 	{
-		string str;
-		getline(cin, str);
-		TPolynom p(str);
+		char ch;
+		std::string str;
 
-		cout << p << '\n';
+		cout << "p1 = ";
+		getline(cin, str);
+		TPolynom p1(str);
+		//cout << "p1 now: " << p1 << '\n';
+
+		cout << "p2 = ";
+		getline(cin, str);
+		TPolynom p2(str);
+		//cout << "p2 now: " << p2 << '\n';
+
+		cout << "Operation: ";
+		cin >> ch;
+		switch (ch)
+		{
+		case '+':
+			cout << "result = " << p1 + p2 << "\n\n";
+			break;
+		case '-':
+			cout << "result = " << p1 - p2 << "\n\n";
+			break;
+		case '*':
+			cout << "result = " << p1 * p2 << "\n\n";
+			break;
+		}
+		cin.ignore(256, '\n');
 	}
 
 	return 0;

@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+#include "..\mp2-lab5-list\TPolynom.h"
+#include "Convertex.h"
 
 namespace mp2lab5listform {
 
@@ -18,9 +21,6 @@ namespace mp2lab5listform {
 		MainForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
 		}
 
 	protected:
@@ -44,13 +44,13 @@ namespace mp2lab5listform {
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Button^ button3;
-	private: System::Windows::Forms::Button^ button4;
+
 
 	private:
 		/// <summary>
 		/// Обязательная переменная конструктора.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -68,33 +68,34 @@ namespace mp2lab5listform {
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// textBox1
 			// 
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox1->Location = System::Drawing::Point(70, 33);
+			this->textBox1->Location = System::Drawing::Point(76, 33);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(671, 39);
 			this->textBox1->TabIndex = 0;
+			this->textBox1->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MainForm::textBox1_KeyPress);
 			// 
 			// textBox2
 			// 
 			this->textBox2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox2->Location = System::Drawing::Point(70, 95);
+			this->textBox2->Location = System::Drawing::Point(76, 95);
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(671, 39);
 			this->textBox2->TabIndex = 1;
+			this->textBox2->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MainForm::textBox2_KeyPress);
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label1->Location = System::Drawing::Point(8, 36);
+			this->label1->Location = System::Drawing::Point(14, 36);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(56, 32);
 			this->label1->TabIndex = 2;
@@ -105,7 +106,7 @@ namespace mp2lab5listform {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label2->Location = System::Drawing::Point(5, 98);
+			this->label2->Location = System::Drawing::Point(11, 98);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(59, 32);
 			this->label2->TabIndex = 3;
@@ -115,9 +116,9 @@ namespace mp2lab5listform {
 			// 
 			this->textBox3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->textBox3->Location = System::Drawing::Point(70, 266);
+			this->textBox3->Location = System::Drawing::Point(17, 291);
 			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(671, 39);
+			this->textBox3->Size = System::Drawing::Size(730, 39);
 			this->textBox3->TabIndex = 4;
 			// 
 			// label3
@@ -125,7 +126,7 @@ namespace mp2lab5listform {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label3->Location = System::Drawing::Point(64, 227);
+			this->label3->Location = System::Drawing::Point(11, 252);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(158, 32);
 			this->label3->TabIndex = 5;
@@ -135,52 +136,43 @@ namespace mp2lab5listform {
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button1->Location = System::Drawing::Point(70, 152);
+			this->button1->Location = System::Drawing::Point(17, 162);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(130, 61);
+			this->button1->Size = System::Drawing::Size(228, 67);
 			this->button1->TabIndex = 6;
 			this->button1->Text = L"+";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
 			// 
 			// button2
 			// 
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button2->Location = System::Drawing::Point(222, 152);
+			this->button2->Location = System::Drawing::Point(267, 162);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(130, 61);
+			this->button2->Size = System::Drawing::Size(228, 67);
 			this->button2->TabIndex = 7;
 			this->button2->Text = L"-";
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MainForm::button2_Click);
 			// 
 			// button3
 			// 
 			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->button3->Location = System::Drawing::Point(374, 152);
+			this->button3->Location = System::Drawing::Point(519, 162);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(130, 61);
+			this->button3->Size = System::Drawing::Size(228, 67);
 			this->button3->TabIndex = 8;
-			this->button3->Text = L"* cnst";
+			this->button3->Text = L"*";
 			this->button3->UseVisualStyleBackColor = true;
-			// 
-			// button4
-			// 
-			this->button4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->button4->Location = System::Drawing::Point(526, 152);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(130, 61);
-			this->button4->TabIndex = 9;
-			this->button4->Text = L"/";
-			this->button4->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MainForm::button3_Click);
 			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(766, 365);
-			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
@@ -201,5 +193,63 @@ namespace mp2lab5listform {
 
 		}
 #pragma endregion
+
+	private: Void textBox1_KeyPress(Object^ sender, KeyPressEventArgs^ e)
+	{
+		char lower = Char::ToLower(e->KeyChar);
+
+		if (!Char::IsDigit(e->KeyChar) && !Char::IsControl(e->KeyChar)
+			&& lower != 'x' && lower != 'y'
+			&& lower != 'z' && e->KeyChar != ' '
+			&& e->KeyChar != '+' && e->KeyChar != '-')
+			e->Handled = true;
+	}
+
+	private: Void textBox2_KeyPress(Object^ sender, KeyPressEventArgs^ e)
+	{
+		char lower = Char::ToLower(e->KeyChar);
+
+		if (!Char::IsDigit(e->KeyChar) && !Char::IsControl(e->KeyChar)
+			&& lower != 'x' && lower != 'y'
+			&& lower != 'z' && e->KeyChar != ' '
+			&& e->KeyChar != '+' && e->KeyChar != '-')
+			e->Handled = true;
+	}
+
+	private: Void button1_Click(Object^ sender, EventArgs^ e)
+	{
+		try {
+			TPolynom p(Convertex::StringTo_string(textBox1->Text->Trim()));
+			TPolynom q(Convertex::StringTo_string(textBox2->Text->Trim()));
+			textBox3->Text = Convertex::stringTo_String((p + q).ToStr());
+		}
+		catch (...) {
+			textBox3->Text = "Что-то пошло не так. Проверьте ввод.";
+		}
+	}
+
+	private: Void button2_Click(Object^ sender, EventArgs^ e)
+	{
+		try {
+			TPolynom p(Convertex::StringTo_string(textBox1->Text->Trim()));
+			TPolynom q(Convertex::StringTo_string(textBox2->Text->Trim()));
+			textBox3->Text = Convertex::stringTo_String((p - q).ToStr());
+		}
+		catch (...) {
+			textBox3->Text = "Что-то пошло не так. Проверьте ввод.";
+		}
+	}
+
+	private: Void button3_Click(Object^ sender, EventArgs^ e)
+	{
+		try {
+			TPolynom p(Convertex::StringTo_string(textBox1->Text->Trim()));
+			TPolynom q(Convertex::StringTo_string(textBox2->Text->Trim()));
+			textBox3->Text = Convertex::stringTo_String((p * q).ToStr());
+		}
+		catch (...) {
+			textBox3->Text = "Что-то пошло не так. Проверьте ввод.";
+		}
+	}
 	};
 }

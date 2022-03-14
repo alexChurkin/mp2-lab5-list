@@ -242,10 +242,11 @@ TPolynom::TPolynom(TPolynom& other)
 		InsLast(other.GetCurr());
 }
 
-//Считаем, что строка уже trim слева и справа
 TPolynom::TPolynom(
 	const std::string& polyStr): TPolynom()
 {
+	if (polyStr.length() == 0) return;
+
 	//Последний встреченный знак коэффициента
 	char lastsgn = '+';
 
@@ -263,11 +264,11 @@ TPolynom::TPolynom(
 			ss << digit;
 
 			tm.coeff = digit;
-			if (lastsgn == '-') tm.coeff *= (-1);
+			//if (lastsgn == '-') tm.coeff *= (-1);
 
 			i += idx - 1;
 		}
-		else if (polyStr[i] == 'x')
+		else if (polyStr[i] == 'x' || polyStr[i] == 'X')
 		{
 			//Это конец строки (степень 1)
 			if (i + 1 == polyStr.size())
@@ -291,7 +292,7 @@ TPolynom::TPolynom(
 				tm.x += 1;
 			}
 		}
-		else if (polyStr[i] == 'y')
+		else if (polyStr[i] == 'y' || polyStr[i] == 'Y')
 		{
 			//Это конец строки (степень 1)
 			if (i + 1 == polyStr.size())
@@ -315,7 +316,7 @@ TPolynom::TPolynom(
 				tm.y += 1;
 			}
 		}
-		else if (polyStr[i] == 'z')
+		else if (polyStr[i] == 'z' || polyStr[i] == 'Z')
 		{
 			//Это конец строки (степень 1)
 			if (i + 1 == polyStr.size())
@@ -342,6 +343,7 @@ TPolynom::TPolynom(
 		//Переход к считыванию следующего монома
 		else if (polyStr[i] == '+' || polyStr[i] == '-')
 		{
+			if (lastsgn == '-') tm.coeff *= (-1);
 			AddMonom(tm);
 			tm.coeff = 1;
 			tm.x = tm.y = tm.z = 0;
@@ -349,6 +351,7 @@ TPolynom::TPolynom(
 		}
 	}
 	//Дозапись последнего монома
+	if (lastsgn == '-') tm.coeff *= (-1);
 	AddMonom(tm);
 }
 
